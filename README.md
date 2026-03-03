@@ -1,7 +1,7 @@
 CJP2P - Connectionless JSON P2P Protocol
 
-A connectionless, simple, interoperable, expansible, p2p protocol, inspired by https://farcaster.xyz/vitalik.eth/0xd6b8e141 and https://medium.com/@webseanhickey/the-evolution-of-a-software-engineer-db854689243
-For building message focused,        not connection focused, p2p (peer-to-peer)                 applications keeping only as much state about peers as     you prefer, and without relaying messages due to           connection limits.
+A connectionless, simple, interoperable, expansible, p2p protocol, for building message oriented,        not connection oriented, p2p (peer-to-peer)                 applications keeping only as much state about peers as     you prefer, implementing as much or as little as you like, and without relaying messages due to           connection limits, with perpetual compatibility by extension instead of breaking changes, inspired by https://farcaster.xyz/vitalik.eth/0xd6b8e141 and https://medium.com/@webseanhickey/the-evolution-of-a-software-engineer-db854689243
+
 
 # as seen in the wild 
 
