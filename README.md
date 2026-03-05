@@ -10,13 +10,12 @@ A connectionless, simple, interoperable, expansible, p2p protocol, for building 
 JSON array of messages.   Please make a PR into here if you spot any new fields or messages.
 
 ## message types 
-### MUST implement
-#### Send it back with any message to the node that provided it.   Currently, this is only used so no one can falsify ("spoof") their source IP to use a node to spam ("flood") someone else.   Without it, you'll receive less replies.  ( https://en.wikipedia.org/wiki/IP_address_spoofing )    
+### SHOULD implement
+#### Send it back with any message to the node that provided it.   Currently, this is only used so no one can falsify ("spoof") their source IP to use a node to spam ("flood") someone else.   Without it, you'll probably only receive replies at most twice the size of your requests.  ( https://en.wikipedia.org/wiki/IP_address_spoofing )      
 ```JSON
 {"PleaseAlwaysReturnThisMessage":["any",{"valid":"JSON"}]}
 {"AlwaysReturned":               ["any",{"valid":"JSON"}]}  
 ```
-### SHOULD implement
 #### Peer discovery
 ```JSON
 {"PleaseSendPeers":{}}
