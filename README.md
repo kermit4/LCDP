@@ -53,8 +53,8 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
 - https://github.com/kermit4/cjp2p-haskell (very few features)
 
 ## likely to be running nodes
-148.71.89.128:24254
-159.69.54.127:24254
+UDP 148.71.89.128:24254
+UDP 159.69.54.127:24254
 
 # development hints:
   echo -n '[{"PleaseSendPeers":{}}]' |nc -u localhost -p 12321 24254
