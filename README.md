@@ -70,6 +70,7 @@ pay attention to unhandled messages and try to handle them, or make your own -- 
 Telegram group: https://t.me/cjp2p
 
 ## test files available (under both their SHA256 hash and name, though the Rust implementation expects it to be a SHA256)
+### misc
 - c3514bf0056180d09376462a7a1b4f213c1d6e8ea67fae5c25099c6fd3d8274b ubuntu-24.04.3-live-server-amd64.iso
 - c74833a55e525b1e99e1541509c566bb3e32bdb53bf27ea3347174364a57f47c ubuntu-24.04.3-wsl-amd64.wsl
 - d8b778285d0006ac17839bcded0fb9bd5dc9cbc8e869adb7b9bbea31efa8070e 1M
@@ -88,11 +89,14 @@ Telegram group: https://t.me/cjp2p
 - a40e24319477590fdcad751a76dca92e542f0134f6dd93582decd1557d2676ad  1024 sha256sums of each 256k block of 256M, which are separately downloadable
 - 562b168a64967fd64687664b987dd1c50c36d1532449bb4c385d683538c0bf03  2048 sha256sums of each 256k block of 512M, which are separately downloadable
 
+### public domain movies
 - bb47bad04897a638cb0127ebb40dfeb1e01fa041a836597e96aaf163b9b618fc  NightOfTheLivingDead720p1968.mp4
 - fb2d386f529c2c6a25de279529166ac90bcaad91eb0a819a6efeedb98e0f0062  Night_of_the_Living_Dead_AVI.mp4
 - 3d5486b9e4dcd259689ebfd0563679990a4cf45cf83b7b7b5e99de5a46b5d46f  abe_lincoln_of_the_4th_ave.mp4
 - 93b40590e45b1d7e1f7b54f69c96f29707e23100a1cc82af0313525060e2d86a  reefer_madness1938.mp4
-
+- 3d5486b9e4dcd259689ebfd0563679990a4cf45cf83b7b7b5e99de5a46b5d46f 269M abe_lincoln_of_the_4th_ave.mp4 
+- 43a39a05ce426151da3c706ab570932b550065ab4f9e521bb87615f841517cf1 101M  sintel.mp4
+- 62c51ca281f7113e429625ac44c14f27c4d73c0fd03bfb47403f8cd85b3c858f 303M  house_on_haunted_hill.mp4
 
 # future possibilities
 
