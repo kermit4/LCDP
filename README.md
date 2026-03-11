@@ -11,10 +11,10 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
 
 ## message types 
 ### SHOULD implement
-#### Send it back with any message to the node that provided it.   Currently, this is only used so no one can falsify ("spoof") their source IP to use a node to spam ("flood") someone else.   Without it, you'll probably only receive replies at most twice the size of your requests.  ( https://en.wikipedia.org/wiki/IP_address_spoofing )      
+#### Send it back with any message to the node that provided it.   Currently, this is only used so no one can fake ("spoof") their source IP to use a node to spam ("flood") someone else.   Without it, you'll receive less, or smaller, replies from most peers.  ( https://en.wikipedia.org/wiki/IP_address_spoofing )        
 ```JSON
-{"PleaseAlwaysReturnThisMessage":["any",{"valid":"JSON"}]}
-{"AlwaysReturned":               ["any",{"valid":"JSON"}]}  
+{"PleaseAlwaysReturnThisMessage":["any",{"valid":"JSON"},2,"x"]}
+{"AlwaysReturned":               ["any",{"valid":"JSON"},2,"x"]}  
 ```
 #### Peer discovery
 ```JSON
@@ -23,6 +23,10 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
       "peers":[
           "148.71.89.128:43344",
           "148.71.89.128:50352"] } }
+
+```
+#### Probably just used to see how far away, or how lagged, a peer is in time.  Only return once, then forget it.
+```
 
 {"PleaseReturnThisMessage":["any",{"valid":"JSON"}]}
 {"ReturnedMessage":        ["any",{"valid":"JSON"}]}  
