@@ -47,11 +47,15 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
 {"MaybeTheyHaveSome":{
        "id":"foo",
       "peers":[ "148.71.89.128:43344", "148.71.89.128:50352"] } }
+```
 #### A simple example for now -- show the user the message, until the spam comes then filter them somehow.
+```
 {"ChatMessage":{
        "message":"hi",
        } }
+```
 #### cryptography related
+```
 { "EncryptedMessages": {
       "base64": "base64 of encrypted array of externally tagged JSON messagess, i.e. this protocol, just encrypted",
       "noise_params": "Noise_NK_25519_ChaChaPoly_SHA2567"
