@@ -47,6 +47,14 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
 {"ChatMessage":{
        "message":"hi",
        } }
+#### cryptography related
+{ "EncryptedMessages": {
+      "base64": "base64 of encrypted array of externally tagged JSON messagess, i.e. this protocol, just encrypted",
+      "noise_params": "Noise_NK_25519_ChaChaPoly_SHA2567"
+    } }
+{ "MyPublicKey": {
+      "ed25519": "in base64"
+        } }
 
 ```
 
@@ -111,6 +119,7 @@ Telegram group: https://t.me/cjp2p
 - encryption something like MyTemporaryPublicKey{e25519:"in base64"}      EncryptedMessages{base64:"some base64 that decrypts to an array of JSON messages"}
 - economics to incentivize resource sharing
 - group chats (this is actually a many to many channel without consensus)
+- proximity chat (by latency)
 - chat message white or black listing to avoid spam, and sharing the lists
 - synchronized media playback between peers (i dont know why, it just seems fun...a shared experience, at a distance, would go well with group chats, like the 1990s when video was usually in sync)
 - RecommendedContent message type?   Some people like to share!  And not just spammers.  (How to reduce that noise?i multiple sources of recommendation? end user must approve..and not Sybil. an IPv4 is valid scarcity.)
