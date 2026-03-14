@@ -58,7 +58,7 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
 ```
 { "EncryptedMessages": {
       "base64": "base64 of encrypted array of externally tagged JSON messagess, i.e. this protocol, just encrypted",
-      "noise_params": "Noise_NK_25519_AESGCM_BLAKE2b"
+      "noise_params": "Noise_NK_25519_AESGCM_SHA256"
     } }
 { "MyPublicKey": {
       "ed25519": "in base64"
