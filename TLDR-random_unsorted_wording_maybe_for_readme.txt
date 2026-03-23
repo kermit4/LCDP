@@ -43,3 +43,8 @@ it means is that the operating system isn't going to delay or lose messages when
 
 an application, when it is going to wind up handling reconnections (packet loss at a larger time scale) anyway, might as well benefit from not having the artifical latency introduced by OS level ordering, when it doesnt want it, nor have to have more state overhead than it has a use for, when its probably already also keeping track of ordering, where desired, anyway.  further, an app should have the flexbiiltiy to keep as much or little state about peers as it wants to have some state about millions, and 0RTT messaging with them, without maintaining connection overhead.
 
+, showing how you can A) use JSON as your base protocol to maintain future compatibility and be easily approachable to new implementations, and B) how you can send messages directly without relays or connections, rather than messages relayed around a web of connections that are abstracted on top of messages, as is oddly commonplace in p2p networking, probably out of habbit from 1:1 server/clientt application design.  However this code is functional, at various things, just not the best at any 1 of them, but interoperability instead of lots of siloed p2p apps is the benefit.
+
+
+
+messages on top of connections simulated over messages is more silly than just connections simulated over messages (should you even want connections for some reason)
