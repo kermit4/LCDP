@@ -48,3 +48,6 @@ an application, when it is going to wind up handling reconnections (packet loss 
 
 
 messages on top of connections simulated over messages is more silly than just connections simulated over messages (should you even want connections for some reason)
+
+
+in most cases, i dont want messages artificially delayed by the operating system
