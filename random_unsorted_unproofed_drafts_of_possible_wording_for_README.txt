@@ -1,3 +1,5 @@
+i belive the focus on connections is nothing more than habbit, like qwerty
+
 yeah like many-to-many VPNs, plus peer discovery and flexible amount of state keeping to support millions of peers, not all-or-nothing like "connections", and no artificial in-kernel latency if a packet is lost.  (pro-tip: keep more state about the ones you expect to talk to more).    also stateless 1RTT (or even 0.5 )  for many common cases.
 
 also, unrelated to the many-to-many theme,  I'm also going with a very simple approachable expansible protocol (JSON) and various optional messages, and no versioning, just make a new kind of message if its incompatible (not just expanded), as I don't expect JSON to chang.. it  leaves as much as possible at the discretion of each implementation.   I wrote 3 so far, (BASH,Ruby,Rust).
