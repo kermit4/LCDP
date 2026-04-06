@@ -10,7 +10,7 @@ You can build "connections" over these messages just like people do over IP, if 
 
 
 ## protocol 
-JSON array of messages.   Please make a PR into here if you spot any new fields or messages.  You can add messages, fields to messages, or stop using messages, but do not try to change the meaning of known messages.  If you want to make an incompatible change to a message, make a new one.  If you want to just add a field, that's fine, as long as you don't mind it being ignored.  If you receive unknown / unhandled fields or messages just ignore them.
+JSON array of messages.   Please make a PR into here if you spot any new fields or messages.  You can add messages, fields to messages, or stop using messages, but do not try to change the meaning of known messages.  If you want to make an incompatible change to a message, make a new one. If you receive unknown / unhandled fields or messages just ignore them and log it to maybe support them later.
 
 ## message types 
 ### SHOULD implement
