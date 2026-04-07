@@ -1,16 +1,13 @@
-CJP2P - Connectionless JSON P2P Protocol (not P2P2P2P2P.... just P2P, not messages over connections over messages, just messages.)
+CJP2P - Connectionless JSON P2P Protocol
 
-A connectionless, simple, interoperable, expansible, p2p protocol, for building message oriented,        not connection oriented, p2p (peer-to-peer)                 applications keeping only as much state about peers as     you prefer, implementing as much or as little as you like, and without the artificial latency of relaying messages due to           connection limits, or suffering artificial latencies, with perpetual compatibility by extension instead of breaking changes, inspired by https://farcaster.xyz/vitalik.eth/0xd6b8e141 and https://medium.com/@webseanhickey/the-evolution-of-a-software-engineer-db854689243
+A connectionless, simple, interoperable, expansible, p2p protocol, for building message oriented,        p2p (peer-to-peer)                 applications, keeping only as much state about peers as     you prefer, implementing as much or as little as you like, with minimal latency, perpetual compatibility by extension not versioning, inspired by https://farcaster.xyz/vitalik.eth/0xd6b8e141 and https://medium.com/@webseanhickey/the-evolution-of-a-software-engineer-db854689243
 
-(I am under the impression that many p2p apps send messages over connections over messages out of a habbit of using connections for networking, not because it was thought through, like typing in Qwerty.)
-
-You can build "connections" over these messages just like people do over IP, if you want to for some reason, whatever "connection" means to you.  
+(I am under the impression that many p2p apps send messages over connections over messages out of a habbit of using connections in networking, like typing in Qwerty.)
 
 # as seen in the wild 
 
-
 ## protocol 
-JSON array of messages.   Please make a PR into here if you spot any new fields or messages.  You can add messages, fields to messages, or stop using messages, but do not try to change the meaning of known messages.  If you want to make an incompatible change to a message, make a new one. If you receive unknown / unhandled fields or messages just ignore them and log it to maybe support them later.
+JSON array of messages.   Please make a PR into here if you spot any new fields or messages.  You can add messages, add fields to messages, ignore messages, but do not change the meaning of known messages.  Tolerate unknown messages and fields.  Log and consider implementing them.
 
 ## message types 
 ### SHOULD implement
