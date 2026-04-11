@@ -61,7 +61,7 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
       "noise_params": "Noise_NK_25519_AESGCM_SHA256"
     } }
 { "MyPublicKey": {
-      "ed25519": "in base64"
+      "ed25519h": "hex (no 0x in front)"
         } }
 
 ```
