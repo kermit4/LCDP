@@ -48,21 +48,29 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
        "id":"foo",
       "peers":[ "148.71.89.128:43344", "148.71.89.128:50352"] } }
 ```
-#### A simple example for now -- show the user the message.
+#### other
 ```
-{"ChatMessage":{
-       "message":"hi",
-       } }
+{"ChatMessage":{ "message":"hi", "length":u64} }
+{"SawMessage":{ "hash": "hash of last received chat message that has been viewed (not just received, actual window focus)" );
+{"YouSouldSeeThis":{ "id":"sha256", "length":u64 } }
+{"IJustSawThis":{ "id":"sha256", } }
+{"PleaseListContent":{}}
+{"ContentList":{ results: [ [ "hash", size:123 ] , ] }
+{"AudioFrame":{ sampleRate: 48000, channels: 1, format: 'f32', data: "some base64" }
+
 ```
 #### cryptography related
 ```
 { "EncryptedMessages": {
-      "base64": "base64 of encrypted array of externally tagged JSON messagess, i.e. this protocol, just encrypted",
+      "base64": "base64 of encrypted array of externally tagged JSON messagess, i.e. this protocol, encrypted",
       "noise_params": "Noise_IK_25519_AESGCM_SHA256"
     } }
 { "MyPublicKey": {
-      "ed25519h": "hex (no 0x in front)"
+      "ed25519h": "hex (no 0x in front)",
+      "ed25519_eth_signed": "optionally, a eth wallet signed message of: my ed25519 public key is 12345678abcdef"
         } }
+{"GetPubByEth":{ "eth_addr": "eth address you want to find the ed25519 for, if found it will return a MyPublicKey", };
+{"Forwarded":{"src":"1,2.3.4:45678","from_ed25519":"if verified","maybe_ed25519":"if not verified for this message, but from a source that claims to be this key" ,"messages":"a string that is this protocol"})];
 
 ```
 
