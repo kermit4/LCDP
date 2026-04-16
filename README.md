@@ -49,7 +49,7 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
       "peers":[ "148.71.89.128:43344", "148.71.89.128:50352"] } }
 ```
 #### other
-```
+```JSON
 {"ChatMessage":{ "message":"hi", "length":u64} }
 {"SawMessage":{ "hash": "hash of last received chat message that has been viewed (not just received, actual window focus)" );
 {"YouSouldSeeThis":{ "id":"sha256", "length":u64 } }
@@ -60,7 +60,7 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
 
 ```
 #### cryptography related
-```
+```JSON
 { "EncryptedMessages": {
       "base64": "base64 of encrypted array of externally tagged JSON messagess, i.e. this protocol, encrypted",
       "noise_params": "Noise_IK_25519_AESGCM_SHA256"
