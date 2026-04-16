@@ -55,8 +55,8 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
 {"YouSouldSeeThis":{ "id":"sha256", "length":12345 } }
 {"IJustSawThis":{ "id":"sha256" } }
 {"PleaseListContent":{}}
-{"ContentList":{ "results": [ [ "hash", "size":123 ] , ] }
-{"AudioFrame":{ "sampleRate": 48000, "channels": 1, "format": 'f32', "data": "some base64" }
+{"ContentList":{ "results": [ [ "hash", "size":123 ]  ] }
+{"AudioFrame":{ "sampleRate": 48000, "channels": 1, "format": '"32", "data": "some base64" }
 
 ```
 #### cryptography related
@@ -69,8 +69,8 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
       "ed25519h": "hex (no 0x in front)",
       "ed25519_eth_signed": "optionally, a eth wallet signed message of: my ed25519 public key is 12345678abcdef"
         } }
-{"GetPubByEth":{ "eth_addr": "eth address you want to find the ed25519 for, if found it will return a MyPublicKey", };
-{"Forwarded":{"src":"1,2.3.4:45678","from_ed25519":"if verified","maybe_ed25519":"if not verified for this message, but from a source that claims to be this key" ,"messages":"a string that is this protocol"})];
+{"GetPubByEth":{ "eth_addr": "eth address you want to find the ed25519 for, if found it will return a MyPublicKey"}}
+{"Forwarded":{"src":"1,2.3.4:45678","from_ed25519":"if verified","maybe_ed25519":"if not verified for this message, but from a source that claims to be this key" ,"messages":"a string that is this protocol"}}
 
 ```
 
