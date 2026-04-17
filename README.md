@@ -73,7 +73,10 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
 {"Forwarded":{"src":"1,2.3.4:45678","from_ed25519":"only if verified","maybe_ed25519":"if not verified for this message, but from a source that claims to be this key" ,"messages":"a string that is this protocol"}}
 
 ```
+### deprecated, do not use
 
+ SignedPub
+ 
 ## implementations
 - https://github.com/kermit4/cjp2p-rust (implements everything listed above, and more, and by far the most developed and intelligent, so also not the simplest example to read)
 - https://github.com/kermit4/cjp2p-ruby (most protocol features, not very intelligent, but much much easier to read than the more developed Rust version, even if you know Rust and not Ruby)
