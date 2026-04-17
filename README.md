@@ -1,4 +1,4 @@
-CJP2P - Connectionless JSON P2P Protocol
+Least Common Denominator Protocol
 
 A connectionless, simple, interoperable, expansible, p2p protocol, for building message oriented,        p2p (peer-to-peer)                 applications, keeping only as much state about peers as     you prefer, implementing as much or as little as you like, with minimal latency, perpetual compatibility by extension not versioning, inspired by https://farcaster.xyz/vitalik.eth/0xd6b8e141 and https://medium.com/@webseanhickey/the-evolution-of-a-software-engineer-db854689243
 
@@ -7,7 +7,7 @@ A connectionless, simple, interoperable, expansible, p2p protocol, for building 
 # as seen in the wild 
 
 ## protocol 
-JSON array of messages.   Please make a PR into here if you spot any new fields or messages.  You can add messages, add fields to messages, ignore messages, but do not change the meaning of known messages.  Tolerate unknown messages and fields.  Log and consider implementing them.
+JSON (UTF-8 encoding) array of messages.   Please make a PR into here if you spot any new fields or messages.  You can add messages, add fields to messages, ignore messages, but do not change the meaning of known messages.  Tolerate unknown messages and fields.  Log and consider implementing them.
 
 ## message types 
 ### SHOULD implement
@@ -82,6 +82,7 @@ JSON array of messages.   Please make a PR into here if you spot any new fields 
 - https://github.com/kermit4/cjp2p-ruby (most protocol features, not very intelligent, but much much easier to read than the more developed Rust version, even if you know Rust and not Ruby)
 - https://github.com/kermit4/cjp2p-bash (most protocol features, but not intelligent, slow transfers, easy to read if you know BASH but not Rust)
 - https://github.com/kermit4/cjp2p-haskell (very few features)
+- There's rumors of a Go version but I haven't seen the code
 
 ## likely to be running nodes
 - UDP 148.71.89.128:24254
@@ -98,7 +99,7 @@ The protocol should sound more like people than computers.   Simple requests, sh
 
 pay attention to unhandled messages and try to handle them, or make your own -- you don't have to wait for some official protocol update to add messages or fields, just don't crash if you receive some.
 
-Telegram group: https://t.me/cjp2p
+Telegram group: least_common_denominator/
 
 ## test files available (under both their SHA256 hash and name, though the Rust implementation expects it to be a SHA256)
 ### misc
