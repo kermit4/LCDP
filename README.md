@@ -21,7 +21,7 @@ JSON (UTF-8 encoding) array of messages.   Please make a PR into here if you spo
       "peers":[
           "148.71.89.128:43344",
           "148.71.89.128:50352"] } }
-{"GetPub":{ "ed25519h": "hex of ed25519 sought, if found returns a MyPublicKey wrapped in a Forwarded, so you know where it came from"}}
+{"WhereAreThey "ed25519h": "hex of ed25519 sought, if found returns a MyPublicKey wrapped in a Forwarded, so you know where it came from"}}
 ```
 #### ping -- participants might use this to prioritize which peers to keep track of and which to keep in touch with more. Send it back and forget it, as it is probably a timestamp.
 ```
@@ -80,7 +80,7 @@ JSON (UTF-8 encoding) array of messages.   Please make a PR into here if you spo
 ```
 ### deprecated, do not use
 
- SignedPub
+ SignedPub GetPub
  
 ## implementations
 ### of the node
