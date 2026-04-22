@@ -1,4 +1,4 @@
-Least Common Denominator Protocol tracking page
+Lowest Common Denominator Protocol tracking page
 
 LCDP is a simple, interoperable, expansible, message oriented peer to peer protocol, allowing participants to keep only as much state about peers as     they prefer, implementing only the message types of interest, with minimal latency, and perpetual compatibility by extension not versioning, inspired by https://farcaster.xyz/vitalik.eth/0xd6b8e141 and https://medium.com/@webseanhickey/the-evolution-of-a-software-engineer-db854689243
 
@@ -112,7 +112,7 @@ The protocol should sound more like people than computers.   Simple requests, sh
 
 pay attention to unhandled messages and try to handle them, or make your own -- you don't have to wait for some official protocol update to add messages or fields, just don't crash if you receive some.
 
-Telegram group: least_common_denominator/
+Telegram group: https://t.me/lowest_common_denominator
 
 ## test files available (under both their SHA256 hash and name, though the Rust implementation expects it to be a SHA256)
 ### misc
