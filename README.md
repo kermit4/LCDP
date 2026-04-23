@@ -2,6 +2,10 @@ Lowest Common Denominator Protocol tracking page
 
 LCDP is a simple, interoperable, expansible, message oriented peer to peer protocol, allowing participants to keep only as much state about peers as     they prefer, implementing only the message types of interest, with minimal latency, and perpetual compatibility by extension not versioning, inspired by https://farcaster.xyz/vitalik.eth/0xd6b8e141 and https://medium.com/@webseanhickey/the-evolution-of-a-software-engineer-db854689243
 
+Telegram group: https://t.me/lowest_common_denominator
+
+Most recent updates probably on Radicle at https://app.radicle.xyz/nodes/iris.radicle.xyz/rad:z4NaokAHdQyjkF562Cj9PpHpGH5f1 not Github
+
 # as seen in the wild 
 
 ## protocol 
@@ -84,7 +88,7 @@ JSON (UTF-8 encoding) array of messages.   Please make a PR into here if you spo
  
 ## implementations
 ### of the node
-- https://github.com/kermit4/cjp2p-rust (implements everything listed above, and more, and by far the most developed and intelligent, so also not the simplest example to read)
+- In Rust https://app.radicle.xyz/nodes/iris.radicle.xyz/rad:z3muoqLkU65QFyyJaVvCv9WiDEo21   (implements everything listed above, and more, and by far the most developed and intelligent, so also not the simplest example to read)
 - https://github.com/kermit4/cjp2p-ruby (most protocol features, not very intelligent, but much much easier to read than the more developed Rust version, even if you know Rust and not Ruby)
 - https://github.com/kermit4/cjp2p-bash (most protocol features, but not intelligent, slow transfers, easy to read if you know BASH but not Rust)
 - https://github.com/kermit4/cjp2p-haskell (very few features)
@@ -106,15 +110,9 @@ JSON (UTF-8 encoding) array of messages.   Please make a PR into here if you spo
 
   You could make something useful by implimenting no more than WhereAreThey and ChatMessage, or just as examples, or only PleaseSenContent, or just WhereAreThey and AudioFrame, or only PleaseReturnThisMessage, or some new type of your own. 
 
-The file sharing is more of a primitive than a main purpose, providing applications a way to reliably receive data of arbitrary size from many peers.
+The protocol should sound more like people than computers.   Simple requests, share a lot, expect little, be tolerant -- you're talking to strangers using automation, not computers.  Prefer to leave decisions up to implementations.  It's a language for ordinary people using automation.  Everyone starts somewhere, keep it accessible to any programming skill level, with more advanced features optional (or not, it's up to you on your node and implementation).  Use long names for things, bandwidth is cheaper than explanations.
 
-The protocol should sound more like people than computers.   Simple requests, share a lot, expect little, be tolerant -- you're talking to strangers using automation, not computers.  Prefer to leave decisions up to implementations.  It's a language for ordinary people using automation.  Everyone starts somewhere, keep it accessable to any programming skill level, with more advanced features optional (or not, it's up to you on your node and implementation).
-
-pay attention to unhandled messages and try to handle them, or make your own -- you don't have to wait for some official protocol update to add messages or fields, just don't crash if you receive some.
-
-Telegram group: https://t.me/lowest_common_denominator
-
-Radicle link https://app.radicle.xyz/nodes/iris.radicle.xyz/rad:z4NaokAHdQyjkF562Cj9PpHpGH5f1
+Pay attention to unhandled messages and consider implementing them. Make your own -- you don't have to wait for some official protocol update to add messages or fields, just don't crash if you receive some, post about it here or somewhere and check that no one else has used it.  The namespace is virtually unlimited.
 
 ## test files available (under both their SHA256 hash and name, though the Rust implementation expects it to be a SHA256)
 ### misc
