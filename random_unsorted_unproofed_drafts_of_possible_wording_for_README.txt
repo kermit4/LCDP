@@ -56,3 +56,9 @@ in most cases, i dont want messages artificially delayed by the operating system
 
 
 immutiable sets of specs, you can add but not alter
+
+
+keep cash not need permissisen to buy food..thats extraordinarily dystopian.  licensed protocols like hdmi  and  bluetooh and even usd headset jack.
+
+
+my motivation.. it is self serving, because decentralization helps everyone, it empowers me to communicate without a third party choosing what i can communicate, and that is important to me

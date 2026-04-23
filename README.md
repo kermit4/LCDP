@@ -114,6 +114,8 @@ pay attention to unhandled messages and try to handle them, or make your own -- 
 
 Telegram group: https://t.me/lowest_common_denominator
 
+Radicle link https://app.radicle.xyz/nodes/iris.radicle.xyz/rad:z4NaokAHdQyjkF562Cj9PpHpGH5f1
+
 ## test files available (under both their SHA256 hash and name, though the Rust implementation expects it to be a SHA256)
 ### misc
 - c3514bf0056180d09376462a7a1b4f213c1d6e8ea67fae5c25099c6fd3d8274b ubuntu-24.04.3-live-server-amd64.iso
@@ -152,4 +154,4 @@ Telegram group: https://t.me/lowest_common_denominator
 - group chats (this is actually a many to many channel without consensus)
 - chat message white or black listing to avoid spam, and sharing the lists
 - synchronized media playback between peers (i dont know why, it just seems fun...a shared experience, at a distance, would go well with group chats, like the 1990s when video was usually in sync)
-- RecommendedContent message type?   Some people like to share!  And not just spammers.  (How to reduce that noise?i multiple sources of recommendation? end user must approve..and not Sybil. an IPv4 is valid scarcity.)
+- many more ideas in https://github.com/kermit4/cjp2p-rust 
