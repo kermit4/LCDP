@@ -6,11 +6,10 @@ Telegram group: https://t.me/lowest_common_denominator
 
 Most recent updates probably on Radicle at https://app.radicle.xyz/nodes/iris.radicle.xyz/rad:z4NaokAHdQyjkF562Cj9PpHpGH5f1 not Github
 
+# protocol 
+UTF-8 encoded JSON array of externally tagged messages.   Please make a PR into here if you spot any new fields or messages in use.  Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
+
 # as seen in the wild 
-
-## protocol 
-JSON (UTF-8 encoding) array of messages.   Please make a PR into here if you spot any new fields or messages in use.  Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
-
 ## message types 
 ### SHOULD implement
 #### Send it back with any message to the node that provided it.   Currently, this is only used so no one can fake ("spoof") their source IP to use a node to spam ("flood") someone else.   Messages recieved without the correct AlwaysReturned should only be sent responses that, on average, are no more than twice the size of such messages received.  ( https://en.wikipedia.org/wiki/IP_address_spoofing )        
@@ -80,7 +79,20 @@ JSON (UTF-8 encoding) array of messages.   Please make a PR into here if you spo
         } }
 {"GetPubByEth":{ "eth_addr": "hex of eth address you want to find the ed25519 for, if found it will return a MyPublicKey wrapped in a Forwarded so you know where it really came from"}}
 {"Forwarded":{"src":"1,2.3.4:45678","from_ed25519":"only if verified","maybe_ed25519":"if not verified for this message, but from a source that claims to be this key" ,"messages":"a string that is this protocol"}}
-
+{"SignedMessage":{"ed25519":"hex of sender's public key","signature":"base64 ed25519 signature of payload","payload":"base64 of a JSON messages array (this protocol)"}}
+```
+`SignedMessage` wraps any array of messages with an ed25519 signature so receivers can verify authorship.  `Latest` (see below) must be delivered inside a `SignedMessage`.
+#### updateable named content
+Ask for the latest known signed hash of a named file published by an ed25519 key.  The response is a `SignedMessage` wrapping a `Latest`.
+```JSON
+{"GetLatest":{"ed25519":"hex of publisher's public key","name":"filename (no path separators)"}}
+{"Latest":{"ed25519":"hex of publisher's public key","name":"filename","sha256":"hex sha256 of current content","seq":1234567890}}
+```
+`seq` is typically the file's modification time as Unix seconds.  `Latest` is only valid inside a `SignedMessage` whose `ed25519` matches; nodes drop it otherwise.
+#### websocket client helper (node-local only, not relayed over UDP)
+Ask the node to forward messages to a peer identified by ed25519 public key, encrypting with `EncryptedMessages`
+```JSON
+{"Forward":{"to_ed25519":"hex of destination public key","messages":[...]}}
 ```
 ### no longer in use that I'm aware of (but you should not re-use them in any incompatible way)
 
