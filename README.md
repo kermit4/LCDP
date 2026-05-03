@@ -9,8 +9,8 @@ UTF-8 encoded JSON array of externally tagged messages.   Please make a PR into 
 
 ## elaborative essays
 - [english_for_the_wire.md](english_for_the_wire.md)
-- [quick-start.md](quick-start.md)
 - [why-messages-not-connections.md](why-messages-not-connections.md)
+- [quick-start.md](quick-start.md)
 
 # as seen in the wild 
 ## message types 
