@@ -4,10 +4,13 @@ LCDP is a simple, interoperable, expansible, message oriented peer to peer proto
 
 Telegram group: https://t.me/lowest_common_denominator
 
-Most recent updates probably on Radicle at https://app.radicle.xyz/nodes/iris.radicle.xyz/rad:z4NaokAHdQyjkF562Cj9PpHpGH5f1 not Github
-
 # protocol 
 UTF-8 encoded JSON array of externally tagged messages.   Please make a PR into here if you spot any new fields or messages in use.  Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
+
+## elaborative essays
+- english_for_the_wire.md
+- quick-start.md
+- why-messages-not-connections.md
 
 # as seen in the wild 
 ## message types 
@@ -100,7 +103,7 @@ Ask the node to forward messages to a peer identified by ed25519 public key, enc
  
 ## implementations
 ### of the node
-- In Rust https://app.radicle.xyz/nodes/iris.radicle.xyz/rad:z3muoqLkU65QFyyJaVvCv9WiDEo21   or https://github.com/kermit4/cjp2p-rust/ (for verified builds)(implements everything listed above, and more, and by far the most developed and intelligent, so also not the simplest example to read)
+- In Rust https://github.com/kermit4/cjp2p-rust/ (for verified builds)(implements everything listed above, and more, and by far the most developed and intelligent, so also not the simplest example to read)
 - https://github.com/kermit4/cjp2p-ruby (most protocol features, not very intelligent, but much much easier to read than the more developed Rust version, even if you know Rust and not Ruby)
 - https://github.com/kermit4/cjp2p-bash (most protocol features, but not intelligent, slow transfers, easy to read if you know BASH but not Rust)
 - https://github.com/kermit4/cjp2p-haskell (very few features)
