@@ -5,7 +5,7 @@ LCDP is a simple, interoperable, expansible, message oriented peer to peer proto
 Telegram group: https://t.me/lowest_common_denominator
 
 # protocol 
-UTF-8 encoded JSON array of externally tagged messages.   Please make a PR into here if you spot any new fields or messages in use.  Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
+UTF-8 encoded JSON array of externally tagged messages.   Post new message types or field on https://github.com/kermit4/LCDP/wiki   Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
 
 ## elaborative essays
 - [english_for_the_wire.md](english_for_the_wire.md)
