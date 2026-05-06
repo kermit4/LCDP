@@ -50,6 +50,8 @@ This is not about being anti-establishment. It is about making the default path 
 
 You're serving large files to lots of people, you aren't behind NAT, and you've measured CPU or network as a bottleneck, i.e. hosting Ubuntu ISO downloads.  The kernel is highly optimized for this, especially via sendfile().
 
+It's 1991, no one has NAT, and you want the user to do work and wonder if their messages got lost when your app tells them "connection closed".
+
 The point is choice. Start with messages, the simplest thing that works for everyone. Simulate connections only where they help, not everywhere by default.
 
 That is why the spec fits in one sentence, and why you can walk away from any implementation, including mine.
