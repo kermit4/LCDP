@@ -17,7 +17,7 @@
 
 ---
 
-## 0:00 - 2:00 Opening — Why we're here
+## 15:00 - 17:00 Opening — Why we're here
 
 **HOST: Okay, so you've built something called LCDP. I keep calling it the 'lowest common denominator protocol' — that sounds like an insult. What is it actually?**
 
@@ -44,7 +44,7 @@ The goal isn't to be efficient. It's to be *possible* for anyone.
 
 ---
 
-## 2:00 - 5:30 The problem with connections [JUMP POINT 1]
+## 17:00 - 20:30 The problem with connections [JUMP POINT 1]
 
 **HOST: You have this essay 'why messages, not connections.' Most of us only know TCP, like, websites. Why is that wrong for p2p?**
 
@@ -71,7 +71,7 @@ It's like QWERTY. We use it because we always have, not because it's optimal.
 
 ---
 
-## 5:30 - 9:00 NAT without a landlord
+## 20:30 - 24:00 NAT without a landlord
 
 **HOST: Okay, but my home router — NAT. I thought you *need* a server to punch through?**
 
@@ -101,7 +101,7 @@ You: None required. I run two bootstrap nodes at 148.71.89.128:24254 just to hel
 
 ---
 
-## 9:00 - 14:00 Three ways in — demo territory [JUMP POINT 2]
+## 24:00 - 29:00 Three ways in — demo territory [JUMP POINT 2]
 
 **HOST: You wrote a quick-start with 'three paths, no wrong door.' Can we actually see how simple?**
 
@@ -133,7 +133,7 @@ You: I literally pasted the README into Claude and said 'make a chat client.' It
 
 ---
 
-## 14:00 - 18:00 Interoperability, not apps
+## 29:00 - 33:00 Interoperability, not apps
 
 **HOST: You're at an uncloud conference. People here hate silos. How does this help?**
 
@@ -153,7 +153,7 @@ The real cost is people not shipping because the spec is 80 pages of binary.
 
 ---
 
-## 18:00 - 22:00 What you can build tonight
+## 33:00 - 37:00 What you can build tonight
 
 **HOST: Give the audience something concrete. What could a non-developer do with this?**
 
@@ -173,7 +173,7 @@ You: I wrote it so I can disappear. No registry, no API key, no update server. T
 
 ---
 
-## 22:00 - 24:30 Why now
+## 37:00 - 39:30 Why now
 
 **HOST: Last question — people will say 'this isn't new.' Why hasn't it happened?**
 
@@ -187,7 +187,7 @@ Decentralization helps everyone, including me, because I want to communicate wit
 
 ---
 
-## 24:30 - 25:00 Close
+## 39:30 - 40:00 Close
 
 **HOST: Where do people start?**
 
@@ -207,8 +207,8 @@ And if you build something, don't ask me to maintain it. That's the point.
 - 0-5 min: story + problem (slow down, this is new)
 - 5-14 min: NAT + demo (if demo fails, just read the Python — it's fine)
 - 14-22 min: interoperability (this is what excites the organizer, linger here)
-- If at 18:00 you're behind: skip the 'three ideas' list, jump to 'Why now'
-- If at 10:00 you're ahead: do live `nc -u` demo twice, let audience shout a message
+- If at 33:00 you're behind: skip the 'three ideas' list, jump to 'Why now'
+- If at 25:00 you're ahead: do live `nc -u` demo twice, let audience shout a message
 
 ## Speaker notes — pauses and tone
 - Say "messages, not connections" slowly, 3 times total
