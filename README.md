@@ -17,7 +17,7 @@ UTF-8 encoded JSON array of externally tagged messages.   Post new message types
 # as seen in the wild 
 ## message types 
 ### SHOULD implement
-#### Send it back with any message to the node that provided it.   Currently, this is only used so no one can fake ("spoof") their source IP to use a node to spam ("flood") someone else.   Messages recieved without the correct AlwaysReturned should only be sent responses that, on average, are no more than twice the size of such messages received.  ( https://en.wikipedia.org/wiki/IP_address_spoofing )        
+#### Send it back with any message to the node that provided it.   Currently, this is only used so no one can fake ("spoof") their source IP to use a node to spam ("flood") someone else.   Messages recieved without the correct AlwaysReturned should only be sent responses that, on average, are no more than twice the size of such messages received.  ( https://en.wikipedia.org/wiki/IP_address_spoofing )        .  Or any other means you can know your response isn't multiplying traffic more than 2.5x to an unwilling recipient.
 ```JSON
 {"PleaseAlwaysReturnThisMessage":["cookie","String"]
 {"AlwaysReturned":               ["cookie","String"]
@@ -38,7 +38,6 @@ UTF-8 encoded JSON array of externally tagged messages.   Post new message types
 {"PleaseReturnThisMessage":["cookie","String"]
 {"ReturnedMessage":        ["cookie","String"]
 ```
-
 
 ### MAY implement
 #### for larger than message sized data
