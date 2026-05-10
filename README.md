@@ -31,6 +31,7 @@ UTF-8 encoded JSON array of externally tagged messages.   Post new message types
           "148.71.89.128:50352"] } }
 {"WhereAreThey":{"ed25519h": "hex of ed25519 sought, if found returns a MyPublicKey wrapped in a Forwarded, so you know where it came from"}}
 {"PleaseListSupportedMessages":{}}
+{"SupportedMessages":{}}
 ```
 #### ping -- participants might use this to prioritize which peers to keep track of and which to keep in touch with more. Send it back and forget it, as it is probably a timestamp.
 ```
