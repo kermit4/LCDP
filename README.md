@@ -85,7 +85,7 @@ Ask the node to forward messages to a peer identified by ed25519 public key, enc
 ```
 ### no longer in use that I'm aware of (but you should not re-use them in any incompatible way)
 
- SignedPub GetPub OnePlusOneMemberships TransferStatus TheseArePeers SearchResult Search PromotedContent ListResult List LastViewed HereIsContent EmptyMessage ContentPeers ContentPeerSuggestions YouSou
+ SignedPub GetPub OnePlusOneMemberships TransferStatus TheseArePeers SearchResult Search PromotedContent ListResult List LastViewed HereIsContent EmptyMessage ContentPeers ContentPeerSuggestions YouSouldSeeThis
  
 ## implementations
 ### of the node
