@@ -19,7 +19,11 @@ AI written, hypier but smoother to read than i'd have done it)
 - [lcdp_description_for_libp2p_users.md](lcdp_description_for_libp2p_users.md)
 - [quick-start.md](quick-start.md)
 
-Though its faster to build something with this than read these -- "Claude, look at pong.html and make a Atari 2600 Combat" or "Claude, look at dashboard.html and make IPv4 scarcity based voting system." or "Claude look at chat.html and make a proof-of-eth-burn public key signer." 
+## fun things to try
+
+- Claude, look at pong.html and make a Atari 2600 Combat
+- Claude, look at dashboard.html and make IPv4 scarcity based voting system.
+- Claude, look at chat.html and make a proof-of-burn ed25519 key signer 
 
 # as seen in the wild 
 ## message types 
