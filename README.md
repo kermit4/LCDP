@@ -12,6 +12,7 @@ UTF-8 encoded JSON array of externally tagged messages.   Post new message types
 ## elaborative essays (AI written, hypier but smoother to read than i'd have done it)
 - [english_for_the_wire.md](english_for_the_wire.md)
 - [why-messages-not-connections.md](why-messages-not-connections.md)
+- [lcdp_description_for_libp2p_users.md](lcdp_description_for_libp2p_users.md)
 - [quick-start.md](quick-start.md)
 
 # as seen in the wild 
