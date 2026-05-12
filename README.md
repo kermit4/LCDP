@@ -9,11 +9,17 @@ Telegram group: https://t.me/lowest_common_denominator
 # protocol 
 UTF-8 encoded JSON array of externally tagged messages.   Post new message types or field on https://github.com/kermit4/LCDP/wiki   Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
 
-## elaborative essays (AI written, hypier but smoother to read than i'd have done it)
+## elaborative essays
+
+AI written, hypier but smoother to read than i'd have done it)
+
+
 - [english_for_the_wire.md](english_for_the_wire.md)
 - [why-messages-not-connections.md](why-messages-not-connections.md)
 - [lcdp_description_for_libp2p_users.md](lcdp_description_for_libp2p_users.md)
 - [quick-start.md](quick-start.md)
+
+Though its faster to build something with this than read these -- "Claude, look at pong.html and make a Atari 2600 Combat" or "Claude, look at dashboard.html and make IPv4 scarcity based voting system." or "Claude look at chat.html and make a proof-of-eth-burn public key signer." 
 
 # as seen in the wild 
 ## message types 
