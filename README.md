@@ -6,21 +6,21 @@ You're still left with one of the two hard problems of computer science -- namin
 
 Telegram group: https://t.me/lowest_common_denominator
 
-# inspired by 
+# inspired by (not required reading)
 
 - https://farcaster.xyz/vitalik.eth/0xd6b8e141  
 - https://medium.com/@webseanhickey/the-evolution-of-a-software-engineer-db854689243
 - https://m.youtube.com/shorts/98dQH9tKPEA
 - https://knightcolumbia.org/content/protocols-not-platforms-a-technological-approach-to-free-speech
+- https://www.rfc-editor.org/rfc/rfc9518.html
 
 
 # protocol 
 UTF-8 encoded JSON array of externally tagged messages.   Post new message types or field on https://github.com/kermit4/LCDP/wiki   Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
 
-## elaborative essays
+## elaborative essays (not required reading)
 
-AI written, hypier but smoother to read than i'd have done it)
-
+AI written, hypey but smoother to read than i'd have done it
 
 - [english_for_the_wire.md](english_for_the_wire.md)
 - [why-messages-not-connections.md](why-messages-not-connections.md)
