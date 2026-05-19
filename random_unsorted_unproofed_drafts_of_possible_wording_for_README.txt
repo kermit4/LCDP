@@ -128,3 +128,28 @@ English for the wire
 
 
 IP+JSON
+
+
+kermit:
+control over parts they already took the keys for ago but didnt kick out the driver (kernel doing TCP)  as Luc realized
+
+a modern dev starts with letting the kernel handle stuff, but soon makes it more reliable (accross "disconnections") by doing it in the code themselves, but still has to deal with the "connection" management so winds up with more complexity than if they just took control from the start.  you wind up with two drivers of the same car, in the last 15+ years.
+
+tcp is from 1974.  writingg all that higher level retransmission sequencing code was hard then
+
+luc put it best "you're right, we're doing all that stuff at like 6 different layers above the  kernel now"
+
+Chris fosdem / uncloud:
+Everyone working overtime to make their layer of the stack bulletproof, adding a ton of complexity in the process, and making everything multiply-resilient and enormously overcomplicated?
+
+kermit:
+AND ADDING ARTIFICIAL LATENCY
+
+tcp loses a packte, you dont see the new ones until the old ones are retransmitted
+
+the kerenl holds them
+
+if you're just downloading a big file, whatever, fine, but for a huge amount of message oriened applications, thats just delay for no reason.
+
+pong and "send the whole chat window each keystroke"  and video conferencing werent random examples, they were demonstrating that.  loss tolerant. latency sensitive.
+
