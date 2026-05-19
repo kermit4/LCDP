@@ -153,3 +153,4 @@ if you're just downloading a big file, whatever, fine, but for a huge amount of 
 
 pong and "send the whole chat window each keystroke"  and video conferencing werent random examples, they were demonstrating that.  loss tolerant. latency sensitive.
 
+IP gave us free speech at a distance. LCDP gives us a language to use it.
