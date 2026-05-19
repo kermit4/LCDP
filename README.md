@@ -46,70 +46,9 @@ UTF-8 encoded JSON array of externally tagged messages.     Do not change the me
 {"AlwaysReturned":               ["cookie","String"]
 ```
 ### MAY implement
-#### Peer discovery
-```JSON
-{"PleaseSendPeers":{}}
-{"Peers":{
-      "peers":[
-          "148.71.89.128:43344",
-          "148.71.89.128:50352"] } }
-{"WhereAreThey":{"ed25519h": "hex of ed25519 sought, if found returns a MyPublicKey wrapped in a Forwarded, so you know where it came from"}}
-{"PleaseListSupportedMessages":{}}
-{"SupportedMessages":{}}
-```
-#### ping -- participants might use this to prioritize which peers to keep track of and which to keep in touch with more. Send it back and forget it, as it is probably a timestamp.
-```
-{"PleaseReturnThisMessage":["cookie","String"]
-{"ReturnedMessage":        ["cookie","String"]
-```
 
-#### for larger than message sized data
-```JSON
-{"PleaseSendContent":{
-      "id":"8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4",
-      "length":4096,
-      "offset":0 }}
-{ "Content": { 
-      "id":"8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4",
-      "base64": "aGk=",
-      "eof": 2,           
-      "offset":0 } }
-{"MaybeTheyHaveSome":{
-       "id":"foo",
-      "peers":[ "148.71.89.128:43344", "148.71.89.128:50352"] } }
-```
+see the https://github.com/kermit4/LCDP/wiki and add your own.
 
-#### cryptography related
-```JSON
-{ "EncryptedMessages": {
-      "base64": "base64 of encrypted array of externally tagged JSON messagess, i.e. this protocol, encrypted",
-      "noise_params": "Noise_IK_25519_AESGCM_SHA256"
-    } }
-{ "MyPublicKey": {
-      "ed25519h": "hex (no 0x in front)",
-      "ed25519_eth_signed": "optionally, a eth wallet signed message of: my ed25519 public key is 12345678abcdef"
-        } }
-{"GetPubByEth":{ "eth_addr": "hex of eth address you want to find the ed25519 for, if found it will return a MyPublicKey wrapped in a Forwarded so you know where it really came from"}}
-{"Forwarded":{"src":"1,2.3.4:45678","from_ed25519":"only if verified","maybe_ed25519":"if not verified for this message, but from a source that claims to be this key" ,"messages":"a string that is this protocol"}}
-{"SignedMessage":{"ed25519":"hex of sender's public key","signature":"base64 ed25519 signature of payload","payload":"base64 of a JSON messages array (this protocol)"}}
-```
-`SignedMessage` wraps any array of messages with an ed25519 signature so receivers can verify authorship.  `Latest` (see below) must be delivered inside a `SignedMessage`.
-#### updateable named content
-Ask for the latest known signed hash of a named file published by an ed25519 key.  The response is a `SignedMessage` wrapping a `Latest`.
-```JSON
-{"GetLatest":{"ed25519":"hex of publisher's public key","name":"filename (no path separators)"}}
-{"Latest":{"ed25519":"hex of publisher's public key","name":"filename","sha256":"hex sha256 of current content","seq":1234567890}}
-```
-`seq` is typically the file's modification time as Unix seconds.  `Latest` is only valid inside a `SignedMessage` whose `ed25519` matches; nodes drop it otherwise.
-#### websocket client helper
-Ask the node to forward messages to a peer identified by ed25519 public key, encrypting with `EncryptedMessages`.  The only known implementation will currently ignore these arriving from the network.
-```JSON
-{"Forward":{"to_ed25519":"hex of destination public key","messages":[...]}}
-```
-### no longer in use that I'm aware of (but you should not re-use them in any incompatible way)
-
- SignedPub GetPub OnePlusOneMemberships TransferStatus TheseArePeers SearchResult Search PromotedContent ListResult List LastViewed HereIsContent EmptyMessage ContentPeers ContentPeerSuggestions YouSouldSeeThis
- 
 ## implementations
 ### of the node
 - In Rust https://github.com/kermit4/cjp2p-rust/ (for verified builds)(implements everything listed above, and more, and by far the most developed and intelligent, so also not the simplest example to read)
@@ -135,7 +74,6 @@ Ask the node to forward messages to a peer identified by ed25519 public key, enc
 
 You could make something useful by implimenting no more than WhereAreThey and ChatMessage, or just as examples, or only PleaseSenContent, or just WhereAreThey and AudioFrame, or only PleaseReturnThisMessage, or some new type of your own. 
 
-Post new message types or field on https://github.com/kermit4/LCDP/wiki
 
 The protocol should sound more like people than computers.   Simple requests, share a lot, expect little, be tolerant -- you're talking to strangers using automation, not computers.  Prefer to leave decisions up to implementations.  It's a language for ordinary people using automation.  Everyone starts somewhere, keep it accessible to any programming skill level, with more advanced features optional (or not, it's up to you on your node and implementation).  Use long names for things, bandwidth is cheaper than explanations.
 
