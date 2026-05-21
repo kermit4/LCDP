@@ -4,7 +4,7 @@
 
 Lowest Common Denominator Protocol (LCDP) tracking page
 
-LCDP is a simple, interoperable, expansible, message oriented peer to peer protocol, allowing participants to keep only as much state about peers as     they prefer, implementing only the message types of interest, with minimal latency, and perpetual compatibility by extension not versioning, Nothing to patent, copyright, version, or trademark.  Uncorruptable.
+LCDP is a simple, interoperable, expansible, message oriented peer to peer protocol, allowing participants to keep only as much state about peers as     they prefer, implementing only the message types of interest, with minimal latency, and perpetual compatibility by extension not versioning, Nothing to patent, copyright, gatekeep, version, or trademark.  Uncorruptable.
 
 You're still left with one of the two hard problems of computer science -- naming things.
 
