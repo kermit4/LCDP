@@ -52,14 +52,14 @@ see the https://github.com/kermit4/LCDP/wiki and add your own.
 
 ## implementations
 ### of the node
-- In Rust https://github.com/kermit4/cjp2p-rust/ (for verified builds)(implements everything listed above, and more, and by far the most developed and intelligent, so also not the simplest example to read)
+- In Rust https://github.com/kermit4/cjp2p-rust/ (by far the most developed and intelligent, so also not the simplest example to read)
 - https://github.com/kermit4/cjp2p-ruby (most protocol features, not very intelligent, but much much easier to read than the more developed Rust version, even if you know Rust and not Ruby)
 - https://github.com/kermit4/cjp2p-bash (most protocol features, but not intelligent, slow transfers, easy to read if you know BASH but not Rust)
 - https://github.com/kermit4/cjp2p-haskell (very few features)
 - There's rumors of a Go version but I haven't seen the code
 ### Web based interfaces to the node
- https://oneplusone.bzz.link/ - has a blank to input a different websocket URL if you dont have one running at localhost
- http://localhost:24255/latest/e13a614dff88de239a986bea20ca129c3dc77bb727fac18f2f092eed27cfb3fb/  HTML+JS interfaces I've made (pong.html has a cool latency chart and is a very good reachability test and real time demo)
+- https://oneplusone.bzz.link/ - has a blank to input a different websocket URL if you dont have one running at localhost
+- http://localhost:24255/latest/e13a614dff88de239a986bea20ca129c3dc77bb727fac18f2f092eed27cfb3fb/  HTML+JS interfaces I've made (pong.html has a cool latency chart and is a very good reachability test and real time demo)
 
 
 ## likely to be running nodes
@@ -110,11 +110,12 @@ Pay attention to unhandled messages and consider implementing them. Make your ow
 # 5. future ideas
 
 ## protocol ideas:
-- content.is_metadata, to include a list of hashes for huge files or streams that we want to verify as we go. (which could themselves do the same for really huge files)
+- metadata
+- a list of hashes for very large files (including metadata)
+- a generic path for huge messages to turn into Content
 - channels, like a stream but multiple senders, with consensus (like a blockchain or DAG)
 - channels, like a stream but multiple senders, without consensus 
 - economics to incentivize resource sharing
-- group chats (this is actually a many to many channel without consensus)
 - chat message white or black listing to avoid spam, and sharing the lists
 - synchronized media playback between peers (i dont know why, it just seems fun...a shared experience, at a distance, would go well with group chats, like the 1990s when video was usually in sync)
 - many more ideas in https://github.com/kermit4/cjp2p-rust 
