@@ -59,7 +59,7 @@ see the https://github.com/kermit4/LCDP/wiki and add your own.
 - There's rumors of a Go version but I haven't seen the code
 ### Web based interfaces to the node
 - https://oneplusone.bzz.link/ - has a blank to input a different websocket URL if you dont have one running at localhost
-- http://localhost:24255/latest/e13a614dff88de239a986bea20ca129c3dc77bb727fac18f2f092eed27cfb3fb/  HTML+JS interfaces I've made (pong.html has a cool latency chart and is a very good reachability test and real time demo)
+- lots more at http://localhost:24255/latest/e13a614dff88de239a986bea20ca129c3dc77bb727fac18f2f092eed27cfb3fb/  
 
 
 ## likely to be running nodes
