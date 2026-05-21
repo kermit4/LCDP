@@ -79,34 +79,6 @@ The protocol should sound more like people than computers.   Simple requests, sh
 
 Pay attention to unhandled messages and consider implementing them. Make your own -- you don't have to wait for some official protocol update to add messages or fields, just don't crash if you receive some, post about it here or somewhere and check that no one else has used it.  The namespace is virtually unlimited.
 
-## test files available (under both their SHA256 hash and name, though the Rust implementation expects it to be a SHA256)
-### misc
-- c3514bf0056180d09376462a7a1b4f213c1d6e8ea67fae5c25099c6fd3d8274b ubuntu-24.04.3-live-server-amd64.iso
-- c74833a55e525b1e99e1541509c566bb3e32bdb53bf27ea3347174364a57f47c ubuntu-24.04.3-wsl-amd64.wsl
-- d8b778285d0006ac17839bcded0fb9bd5dc9cbc8e869adb7b9bbea31efa8070e 1M
-- 39d0e0e08bda0113b570b2486127fcfaaa18c7c47d389b9ecb27b2b863750671 2M
-- e0f0b3c745acbf7631d1e98153e406045bacea2f3dc2ea310c1b82ab0c23e471 4M
-- 5b6656f16181bc0689b583d02b8b8272a02049af3ba07715c4a6c08beef814c2 8M
-- 7caacb04f205faf47a8d55ea7c3c6b642377b850d970f7df5233f213415829d2 16M
-- 24349fedc2836f75e58b199c748e6fb1808136bb8ab9f618a264c64ce735fa5b 32M
-- 35fd7b1f88666d3156d32fa89b0bb0930b3a8eb86dd711d0fe277f45b465791f 64M
-- e1c4691d6cc8f2638250127beaadeb1b3d041c6ba877cfb5e551bb9da2f63303 128M
-- cb407d7355bb63929d7f4b282684f5a2884a0c3fb73d56642455600569a6888b 256M
-- 6f5a06b0a8b83d66583a319bfa104393f5e52d2c017437a1b425e9275576500c 512M
-- c7dce40a2af023d2ab7d4bc26fac78cba7f7cb7854f67f9fb5bf72b14d9931d8 1024M
-- 8e008973582673665a326cc44c681c11d9d39ec61dd529f3c1aa26695f4880e7 0x10001 bytes (one byte more than 64k)
-
-- a40e24319477590fdcad751a76dca92e542f0134f6dd93582decd1557d2676ad  1024 sha256sums of each 256k block of 256M, which are separately downloadable
-- 562b168a64967fd64687664b987dd1c50c36d1532449bb4c385d683538c0bf03  2048 sha256sums of each 256k block of 512M, which are separately downloadable
-
-### public domain movies
-- bb47bad04897a638cb0127ebb40dfeb1e01fa041a836597e96aaf163b9b618fc  NightOfTheLivingDead720p1968.mp4
-- fb2d386f529c2c6a25de279529166ac90bcaad91eb0a819a6efeedb98e0f0062  Night_of_the_Living_Dead_AVI.mp4
-- 93b40590e45b1d7e1f7b54f69c96f29707e23100a1cc82af0313525060e2d86a  reefer_madness1938.mp4
-- 3d5486b9e4dcd259689ebfd0563679990a4cf45cf83b7b7b5e99de5a46b5d46f 269M abe_lincoln_of_the_4th_ave.mp4 
-- 43a39a05ce426151da3c706ab570932b550065ab4f9e521bb87615f841517cf1 101M  sintel.mp4 -- modern Blender flic.  
-- 62c51ca281f7113e429625ac44c14f27c4d73c0fd03bfb47403f8cd85b3c858f 303M  house_on_haunted_hill.mp4
-
 # 5. future ideas
 
 ## protocol ideas:
