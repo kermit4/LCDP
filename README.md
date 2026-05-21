@@ -40,11 +40,12 @@ UTF-8 encoded JSON array of externally tagged messages.     Do not change the me
 # 3. as seen in the wild  (suggested reading)
 ## message types 
 ### SHOULD implement
-#### Send it back with any message to the node that provided it (but not just by itself, that's not the purpose).   Currently, this is only used so no one can fake ("spoof") their source IP to use a node to spam ("flood") someone else.   Messages recieved without the correct AlwaysReturned should only be sent responses that, on average, are no more than twice the size of such messages received.  ( https://en.wikipedia.org/wiki/IP_address_spoofing )        .  Or any other means you can know your response isn't multiplying traffic more than 2.5x to an unwilling recipient.
+#### anti-spoof
 ```JSON
 {"PleaseAlwaysReturnThisMessage":["cookie","String"]
 {"AlwaysReturned":               ["cookie","String"]
 ```
+Send it back with any message to the node that provided it (but not just by itself, that's not the purpose).   Currently, this is only used so no one can fake ("spoof") their source IP to use a node to spam ("flood") someone else.   Messages recieved without the correct AlwaysReturned should only be sent responses that, on average, are no more than twice the size of such messages received.  ( https://en.wikipedia.org/wiki/IP_address_spoofing )        .  Or any other means you can know your response isn't multiplying traffic more than 2.5x to an unwilling recipient.
 ### MAY implement
 
 see the https://github.com/kermit4/LCDP/wiki and add your own.
