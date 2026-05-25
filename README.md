@@ -1,4 +1,8 @@
-# 1. non-technical (optional reading)
+# 1. the protocol
+
+UTF-8 encoded JSON array of externally tagged messages.     Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
+
+# 2. non-technical (optional reading)
 
 ## summary
 
@@ -32,9 +36,6 @@ AI written, hypey but smoother to read than i'd have done it
 - Claude, look at pong.html and make a Atari 2600 Combat
 - Claude, look at dashboard.html and make IPv4 scarcity based voting system.
 - Claude, look at chat.html and make a proof-of-burn ed25519 key signer 
-
-# 2. protocol  (required reading)
-UTF-8 encoded JSON array of externally tagged messages.     Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
 
 
 # 3. as seen in the wild  (suggested reading)
