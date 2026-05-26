@@ -25,7 +25,7 @@ you're free to simulate connectinos on top, just like you might be used to, you 
 
 you can put ethereum, bitcoin, whatever over it
 
-conn.ctions are built on messages.  apps should have tte option to use either, rathec than be forced to sesh messaces over connections (that are a series of messaces themselves)
+connections are built on messages.  apps should have tte option to use either, rathec than be forced to sesh messaces over connections (that are a series of messaces themselves)
 
 tcp  is abstracted connections.. you courd do that here if you want.  i just dont recommend forcing it.
 
@@ -39,7 +39,8 @@ a baseline protocol everyone can build on, minimal requiremnets (an array of ext
 a bridge..we've mostly agreed on IP, and mostly on UDP or TCP, and some 1:1 protocols like http and DNS, but for many to many, it gets very fragmented fast.  this is meant to be a layer between UDP and many to many applications, a common language (JSON), and also connection oriented as desired not imposed, as many p2p cases applications are sending messages not streams, so sending them over streams adds undesired complexity
 
 
-when it says unreliable in this case it doesn't mean that in a negative way what
+when wikipedia says unreliable in this case it doesn't mean that in a negative way what
+
 it means is that the operating system isn't going to delay or lose messages when a previous message has not been received.  I prefer that the application receive messages as soon as they arrive and not be deliberately lost simply because others were accidentally lost. a developed application will always deal with reconnections which is the same as dealing with retransmissions and timeouts and the developed application will be able to handle messages in an orderly fashion even if they are not received in order anyway so allowing the operating system to continue to do that duplicates that that work and just creates lag and extra messages lost. 
 
 
@@ -58,7 +59,7 @@ in most cases, i dont want messages artificially delayed by the operating system
 immutiable sets of specs, you can add but not alter
 
 
-keep cash not need permissisen to buy food..thats extraordinarily dystopian.  licensed protocols like hdmi  and  bluetooh and even usd headset jack.
+keep cash not need permissisen to buy food..thats extraordinarily dystopian.  licensed protocols like hdmi  and  bluetooh and even use headset jack.
 
 
 my motivation.. it is self serving, because decentralization helps everyone, it empowers me to communicate without a third party choosing what i can communicate, and that is important to me
@@ -69,15 +70,7 @@ LCDP is a shorter way to say UTF-8 encoded JSON arrays of externally tagged valu
 need biggger stay
 slides on xiamoi stick MAKE SURE PORN DOESNT POP UP or a bunch of pirated stuff
 
-use good wallet for fragile czk
-
-
- make separate crypto friendly urls, for eth and bitcoin, SAME PAGE fuckers, this is the same  fight
- make pong and video and chat eth and bitcoin friendly
-
- structural censorship, once you see it you see it everywhere.
-
-
+structural censorship, once you see it you see it everywhere.
 
 You could make something useful by implimenting no more than WhereAreThey and ChatMessage, or some other program  only PleaseSendContent, or another just WhereAreThey and AudioFrame, or even only PleaseReturnThisMessage (like a ping) or some new type of your own.
 
@@ -109,17 +102,13 @@ and btw you're the bottleneck now [people like you].  "i am not a developer" wit
 
 we are post computing scarcity.  must code from the past was written when that was not true.
 
-mentodn optimal at one time are not at another.  theres  a lot of momentum in those methods though.
-
-practice video myself
+mention how what's  optimal at one time are not at another.  theres  a lot of momentum in those methods though.
 
 show how easy it is to make an app custom  ..browser ui or native? is native even hard now?
-
 
 give background, people often asked how to do p2p directly without forwarding
 
 Using the same name for software and protocols is the trend that killed decentralizion since 2000.  People just see apps so they make more apps, never even thinking about interoperability.  Breaking that trend is critical and necessary to bringing back decentralizion by default.
-
 
 "why now, why all these other ways before, this isn't new?"  "the bottlenecks have moved" (its not cpu, network, disk anymore.  its you, the developer, and with AI that's all of you.)
 
@@ -142,16 +131,11 @@ luc put it best "you're right, we're doing all that stuff at like 6 different la
 Chris fosdem / uncloud:
 Everyone working overtime to make their layer of the stack bulletproof, adding a ton of complexity in the process, and making everything multiply-resilient and enormously overcomplicated?
 
-kermit:
-AND ADDING ARTIFICIAL LATENCY
+tcp is just ADDING ARTIFICIAL LATENCY
 
-tcp loses a packte, you dont see the new ones until the old ones are retransmitted
-
-the kerenl holds them
+tcp loses a packet, you get lag until it is re-transmitted and possibly even more lost packets if later ones made it
 
 if you're just downloading a big file, whatever, fine, but for a huge amount of message oriened applications, thats just delay for no reason.
-
-pong and "send the whole chat window each keystroke"  and video conferencing werent random examples, they were demonstrating that.  loss tolerant. latency sensitive.
 
 IP gave us free speech at a distance. LCDP gives us a language to use it.
 uncapturable, base protocol cant be trademarket copyrighted liceneseds.. its just JSON
