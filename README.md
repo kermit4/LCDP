@@ -1,4 +1,4 @@
-# 1. the protocol
+# 1. the (un)protocol
 
 UTF-8 encoded JSON array of externally tagged messages.     Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
 
