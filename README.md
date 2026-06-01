@@ -2,6 +2,8 @@
 
 UTF-8 encoded JSON array of externally tagged messages.     Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
 
+https://www.ietf.org/staging/draft-pearson-lcdp-00.txt
+
 # 2. non-technical (optional reading)
 
 ## summary
@@ -90,4 +92,3 @@ Pay attention to unhandled messages and consider implementing them. Make your ow
 - economics to incentivize resource sharing
 - chat message white or black listing to avoid spam, and sharing the lists
 - synchronized media playback between peers (i dont know why, it just seems fun...a shared experience, at a distance, would go well with group chats, like the 1990s when video was usually in sync)
-- make a IETF draft https://datatracker.ietf.org/submit/tool-instructions/
