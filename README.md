@@ -84,13 +84,11 @@ Pay attention to unhandled messages and consider implementing them. Make your ow
 
 ## protocol ideas:
 - metadata
-- a list of hashes for very large files (including metadata)
-- a generic path for huge messages to turn into Content
+- a list of hashes for very large files (potentially recursively)
 - channels, like a stream but multiple senders, with consensus (like a blockchain or DAG)
 - channels, like a stream but multiple senders, without consensus 
 - economics to incentivize resource sharing
 - chat message white or black listing to avoid spam, and sharing the lists
 - synchronized media playback between peers (i dont know why, it just seems fun...a shared experience, at a distance, would go well with group chats, like the 1990s when video was usually in sync)
-- many more ideas in https://github.com/kermit4/cjp2p-rust 
 - make a IETF draft https://datatracker.ietf.org/submit/tool-instructions/
 - needs real ai quickstart make game or toy
