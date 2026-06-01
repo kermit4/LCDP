@@ -2,7 +2,7 @@
 
 UTF-8 encoded JSON array of externally tagged messages.     Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
 
-https://www.ietf.org/staging/draft-pearson-lcdp-00.txt
+https://datatracker.ietf.org/doc/html/draft-pearson-lcdp
 
 # 2. non-technical (optional reading)
 
