@@ -91,4 +91,3 @@ Pay attention to unhandled messages and consider implementing them. Make your ow
 - chat message white or black listing to avoid spam, and sharing the lists
 - synchronized media playback between peers (i dont know why, it just seems fun...a shared experience, at a distance, would go well with group chats, like the 1990s when video was usually in sync)
 - make a IETF draft https://datatracker.ietf.org/submit/tool-instructions/
-- needs real ai quickstart make game or toy
