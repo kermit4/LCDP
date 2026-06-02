@@ -86,7 +86,7 @@ Pay attention to unhandled messages and consider implementing them. Make your ow
 
 ## protocol ideas:
 - metadata
-- a list of hashes for very large files (potentially recursively)
+- a list of hashes for very large files (potentially recursively (and then it can start sharing with others before complete without one bad bit causing a loop forever)
 - channels, like a stream but multiple senders, with consensus (like a blockchain or DAG)
 - channels, like a stream but multiple senders, without consensus 
 - economics to incentivize resource sharing
