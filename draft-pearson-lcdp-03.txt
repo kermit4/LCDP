@@ -76,7 +76,7 @@ Table of Contents
 
    The complete wire format is a UTF-8 encoded JSON array. Each element
    is a single-key object where the key identifies the message type.
-   Receivers MUST ignore objects with unknown keys and MUST ignore
+   Receivers MUST tolerate objects with unknown keys and MUST tolerate
    unknown fields within known objects.
 
    This document is Informational and is an Independent Submission. It
@@ -144,8 +144,9 @@ Pearson Expires 3 December 2026 [Page 2]
    "payload_json":"string"}}]
    [{"EncryptedMessages":{"base64":"string","noise_params":"string"}}]
 
-   Authentication and encryption are provided on a per-message basis and
-   are OPTIONAL. This differs from transport-layer security models.
+   Authentication and encryption encapsulate this protocol, i.e. a
+   JSON array of messages, and are OPTIONAL. This differs from 
+   transport-layer security models.
 
 5. Design Considerations
 
