@@ -28,10 +28,11 @@ Telegram group: https://t.me/lowest_common_denominator
 
 AI written, hypey but smoother to read than i'd have done it
 
+- [quick-start.md](quick-start.md)
 - [english_for_the_wire.md](english_for_the_wire.md)
 - [why-messages-not-connections.md](why-messages-not-connections.md)
+- [agents_love_it.md](agents_love_it.md)
 - [lcdp_description_for_libp2p_users.md](lcdp_description_for_libp2p_users.md)
-- [quick-start.md](quick-start.md)
 
 ## fun things to try
 
