@@ -4,6 +4,8 @@
 
 This document explains why LCDP was designed for them.
 
+**LCDP is not a p2p protocol. It's a post-human governance model.**
+
 ### 1. JSON Is the Native Tongue
 
 **Binary protocols**: Require byte counting, offset tracking, bit shifts. One off-by-one error breaks the packet. You need a schema compiler, a Wireshark dissector, and an IETF WG to add a field.
@@ -34,21 +36,23 @@ Need 8-bit data? Use base64 in a string:
 ```
 Still JSON. Still readable. Still forwards compatible.
 
-### 3. Tolerance Over Negotiation
+### 3. Tolerance Over Negotiation: The Post-Human Governance Model
 
-Human protocols solve extension with committees: "everyone MUST use `PleaseSendPeers`." 
+Human protocols solve extension with committees: "everyone MUST use `PleaseSendPeers`." You need consensus to add a field. Version negotiation is political.
 
 Agent protocols can't wait for consensus. LLMs will invent their own keys, trained on their user's idiolect.
 
 LCDP's core rule: **"Receivers MUST ignore objects with unknown keys."**
 
-This enables Babel 2.0 survival:
+This is the post-human governance model. Not RFC voting. Not IANA registries. Just tolerance.
+
+It enables Babel 2.0 survival:
 
 1. Your agent ships `[{"GimmeNodes":{}}]` today. My 2024 node ignores it and keeps working.
 2. Later, my agent learns `GimmeNodes` = `PleaseSendPeers` and adds an alias.
 3. No version bump. No flag day. No WG meeting.
 
-It's how natural language actually evolves. English didn't break when "yeet" was invented. Old speakers ignored it. New speakers adopted it. The language evolved by tolerance, not by RFC.
+It's how natural language actually evolves. English didn't break when "yeet" was invented. Old speakers ignored it. New speakers adopted it. The language evolved by tolerance, not by committee.
 
 ### 4. Post-Human Communication
 
@@ -91,4 +95,5 @@ That was the design goal. Mission accomplished.
 ---
 
 **LCDP: Designed in 2024. For the agents of 2026.**  
+**Not a p2p protocol. A post-human governance model.**  
 No WG required.
