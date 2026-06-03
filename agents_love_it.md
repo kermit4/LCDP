@@ -1,4 +1,4 @@
-# My Agent Loves It
+# Agents Love It
 
 ## Why LCDP Is the First Agent-Native Protocol
 
@@ -89,8 +89,6 @@ sock.sendto(b'[{"PleaseSendPeers":{}}]', ("255.255.255.255", 7373))
 ```
 
 If your agent can open a UDP socket and print JSON, it's on the network. 
-
-That was the design goal. Mission accomplished.
 
 ---
 
