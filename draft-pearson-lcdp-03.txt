@@ -1,10 +1,10 @@
 Internet Engineering Task Force                               C. Pearson
 Internet-Draft                                    Independent Submission
-Intended status: Informational                               1 June 2026
+Intended status: Informational                               6 June 2026
 Expires: 3 December 2026
 
                 Lowest Common Denominator Protocol (LCDP)
-                       draft-pearson-lcdp-02
+                       draft-pearson-lcdp-03
 
 Abstract
 
@@ -144,8 +144,8 @@ Pearson Expires 3 December 2026 [Page 2]
    "payload_json":"string"}}]
    [{"EncryptedMessages":{"base64":"string","noise_params":"string"}}]
 
-   Authentication and encryption encapsulate this protocol, i.e. a
-   JSON array of messages, and are OPTIONAL. This differs from 
+   Encryption SHOULD encapsulate this protocol, i.e. a JSON 
+   array of messages, and are OPTIONAL. This differs from 
    transport-layer security models.
 
 5. Design Considerations
