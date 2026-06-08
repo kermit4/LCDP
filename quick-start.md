@@ -88,7 +88,10 @@ Run two on any two different systems:
 python3 presence.py alice
 node presence.js bob
 go run presence.go carol
+stack script presence.hs dave
 ```
+
+The Haskell version uses [Stack](https://docs.haskellstack.org/) which downloads its own GHC and all dependencies automatically — no manual package installation needed.
 
 You will soon see each other's names. If anyone else in the world is running this right now, you will see them too.
 
