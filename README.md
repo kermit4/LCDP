@@ -26,8 +26,6 @@ Telegram group: https://t.me/lowest_common_denominator
 
 ## elaborative essays (not required reading)
 
-AI written, hypey but smoother to read than i'd have done it
-
 - [quick-start.md](quick-start.md)
 - [english_for_the_wire.md](english_for_the_wire.md)
 - [why-messages-not-connections.md](why-messages-not-connections.md)
