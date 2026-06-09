@@ -105,6 +105,7 @@ node presence.js bob
 go run presence.go carol
 stack script presence.hs dave
 cargo +nightly -Zscript presence.rs eve
+cargo +nightly -Zscript presence-select_based.rs steve
 ```
 
 The Haskell version uses [Stack](https://docs.haskellstack.org/) which downloads its own GHC and all dependencies automatically. The Rust version uses [cargo script](https://doc.rust-lang.org/cargo/reference/unstable.html#script) (requires `rustup install nightly`) which handles `serde_json` and `rand` inline — no separate `Cargo.toml` needed.
