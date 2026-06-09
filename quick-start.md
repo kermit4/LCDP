@@ -27,11 +27,15 @@ These are not in the wiki. We are making them up right now. That is allowed. Use
 ```json
 {"PleaseSendPeers": {}}
 {"Peers": {"peers": ["148.71.89.128:24254", "1.2.3.4:5678"]}}
-{"PleaseAlwaysReturnThisMessage": "some-random-token"}
-{"AlwaysReturned": "some-random-token"}
+{"PleaseAlwaysReturnThisMessage": "per-peer-random-token"}
+{"AlwaysReturned": "per-peer-random-token"}
 ```
 
-`PleaseAlwaysReturnThisMessage` is the anti-spoof mechanism. Include a random token in every outgoing packet. Echo it back with `AlwaysReturned` in any packet where you are already replying. This stops someone from forging a source IP to make your node flood a victim.
+`PleaseAlwaysReturnThisMessage` is the anti-spoof mechanism. Use a **distinct** random token per peer — the same token for everyone defeats the purpose, because anyone who reads a packet could reuse that token to spoof another peer's address and make your node flood them with large responses. Echo a peer's token back with `AlwaysReturned` in any packet where you are already replying.
+
+When you have not yet received a valid `AlwaysReturned` from a peer, keep your reply to at most **2.5× the incoming packet size** (counting the 28-byte UDP+IP header). When trimming, the minimum reply is `PleaseAlwaysReturnThisMessage` (your token for them) plus at least one `Peers` entry. Use `AlwaysReturned` only in full replies — the trimmed case does not need it. Importantly, unverified peers must always receive your `PleaseAlwaysReturnThisMessage` or they can never echo it back and become verified: that would be a chicken-and-egg deadlock.
+
+The token does not have to be stored per peer. `HMAC(your_secret, peer_address)` gives each peer a unique, unpredictable token that you can recompute on demand — see the README for details.
 
 ---
 
@@ -53,7 +57,7 @@ Bootstrap nodes already running on the internet:
 Use these existing message types:
   {"PleaseSendPeers":{}}
   {"Peers":{"peers":["ip:port",...]}}
-  {"PleaseAlwaysReturnThisMessage":"<token>"}   -- include in every outgoing packet
+  {"PleaseAlwaysReturnThisMessage":"<token>"}   -- include in every outgoing packet; use a DISTINCT random token per peer
   {"AlwaysReturned":"<token>"}                  -- echo back whenever you are already replying
 
 Add these new message types:
@@ -71,8 +75,19 @@ Behavior:
   - When you receive HereIsWho, merge the node list into your records
   - When you receive Peers, add those addresses to your peer set
   - When you receive PleaseSendPeers, reply with your peer list (up to 20)
-  - Include PleaseAlwaysReturnThisMessage with a random token in every outgoing packet
+  - Include PleaseAlwaysReturnThisMessage with a random token in every outgoing packet;
+    use a DISTINCT token per peer (not one shared token) — a shared token lets anyone
+    read it from a packet and spoof an address to trigger amplified replies to a victim
   - Include AlwaysReturned echoing their token in any packet where you are already replying
+  - Derive the token for each peer as HMAC-SHA256(your_secret, peer_address) so you
+    need no per-peer storage — you can recompute it at any time
+  - When replying, check whether the incoming packet contains AlwaysReturned equal to
+    the HMAC token for that source address. If it does, send the full reply. If not,
+    limit your reply to at most 2.5x the incoming packet size (including the 28-byte
+    UDP+IP header). The minimum trimmed reply is PleaseAlwaysReturnThisMessage (your
+    token, so they can verify themselves next time) plus at most 1 Peers entry.
+    Drop AlwaysReturned from the trimmed reply — you need to give them the token first
+    or they can never echo it back and receive a full response.
   - Print the presence board to stdout every 10 seconds: name, address, seconds since last heard
   - The node name comes from the first CLI argument or the NAME env var, default "anon"
   - Use a 1-second socket timeout so the send loop can fire without a dedicated thread
@@ -89,9 +104,10 @@ python3 presence.py alice
 node presence.js bob
 go run presence.go carol
 stack script presence.hs dave
+cargo +nightly -Zscript presence.rs eve
 ```
 
-The Haskell version uses [Stack](https://docs.haskellstack.org/) which downloads its own GHC and all dependencies automatically — no manual package installation needed.
+The Haskell version uses [Stack](https://docs.haskellstack.org/) which downloads its own GHC and all dependencies automatically. The Rust version uses [cargo script](https://doc.rust-lang.org/cargo/reference/unstable.html#script) (requires `rustup install nightly`) which handles `serde_json` and `rand` inline — no separate `Cargo.toml` needed.
 
 You will soon see each other's names. If anyone else in the world is running this right now, you will see them too.
 

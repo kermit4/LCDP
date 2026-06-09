@@ -1,7 +1,8 @@
-import socket, json, time, random, sys, os
+import socket, json, time, sys, os, hmac as _hmac, hashlib, secrets
 
 NAME = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("NAME", "anon")
 BOOTSTRAP = [("148.71.89.128", 24254), ("159.69.54.127", 24254)]
+IP_UDP_HEADER = 28
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind(("0.0.0.0", 24254))
@@ -9,7 +10,13 @@ sock.settimeout(1.0)
 
 peers = set()
 presence = {}  # name -> {"t": unix_seconds, "addr": "ip:port"}
-token = str(random.random())
+
+# HMAC-derived token: no per-peer state to store.
+# See README: "You could use a hash of their address and a secret."
+secret = secrets.token_bytes(32)
+
+def token_for(addr_str):
+    return _hmac.new(secret, addr_str.encode(), hashlib.sha256).hexdigest()[:32]
 
 def send(addr, msgs):
     sock.sendto(json.dumps(msgs).encode(), addr)
@@ -19,8 +26,9 @@ def split(s):
     return s[:i], int(s[i+1:])
 
 for b in BOOTSTRAP:
-    peers.add(f"{b[0]}:{b[1]}")
-    send(b, [{"PleaseSendPeers": {}}, {"PleaseAlwaysReturnThisMessage": token}])
+    key = f"{b[0]}:{b[1]}"
+    peers.add(key)
+    send(b, [{"PleaseSendPeers": {}}, {"PleaseAlwaysReturnThisMessage": token_for(key)}])
 
 last_ping = last_print = 0
 
@@ -30,7 +38,7 @@ while True:
     if now - last_ping > 5:
         for p in list(peers):
             send(split(p), [{"IAmHere": {"name": NAME, "t": int(now)}},
-                            {"PleaseAlwaysReturnThisMessage": token}])
+                            {"PleaseAlwaysReturnThisMessage": token_for(p)}])
         last_ping = now
 
     if now - last_print > 10:
@@ -51,7 +59,16 @@ while True:
 
     src = f"{addr[0]}:{addr[1]}"
     peers.add(src)
+    req_bytes = len(data) + IP_UDP_HEADER
+
+    # Verified if this packet echoes the HMAC token we would compute for this address.
+    is_verified = any(
+        m.get("AlwaysReturned") == token_for(src)
+        for m in msgs if "AlwaysReturned" in m
+    )
+
     out = []
+    their_token = None
 
     for m in msgs:
         if "Peers" in m:
@@ -70,9 +87,26 @@ while True:
             ]}})
         if "PleaseSendPeers" in m:
             out.append({"Peers": {"peers": list(peers)[:20]}})
-        if "PleaseAlwaysReturnThisMessage" in m and out:
-            out.append({"AlwaysReturned": m["PleaseAlwaysReturnThisMessage"]})
+        if "PleaseAlwaysReturnThisMessage" in m:
+            their_token = m["PleaseAlwaysReturnThisMessage"]
 
     if out:
-        sock.sendto(json.dumps(out).encode(), addr)
+        if their_token is not None:
+            out.append({"AlwaysReturned": their_token})
+        # Include our token in every reply so an unverified peer can echo it back
+        # and receive full responses starting from the very next exchange.
+        out.append({"PleaseAlwaysReturnThisMessage": token_for(src)})
 
+        if not is_verified:
+            payload = json.dumps(out).encode()
+            if len(payload) > 2.5 * req_bytes:
+                # Minimum: our token (lets them bootstrap verification) + at most 1 peer.
+                # AlwaysReturned is dropped — we are not proving ourselves, just giving
+                # them what they need to prove themselves next time.
+                trimmed = [{"PleaseAlwaysReturnThisMessage": token_for(src)}]
+                for item in out:
+                    if "Peers" in item:
+                        trimmed.append({"Peers": {"peers": item["Peers"]["peers"][:1]}})
+                        break
+                out = trimmed
+        sock.sendto(json.dumps(out).encode(), addr)
