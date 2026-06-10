@@ -81,13 +81,3 @@ The protocol should sound more like people than computers.   Simple requests, sh
 
 Pay attention to unhandled messages and consider implementing them. Make your own -- you don't have to wait for some official protocol update to add messages or fields, just don't crash if you receive some, post about it here or somewhere and check that no one else has used it.  The namespace is virtually unlimited.
 
-# 5. future ideas
-
-## protocol ideas:
-- metadata
-- channels, like a stream but multiple senders, with consensus (like a blockchain or DAG)
-- channels, like a stream but multiple senders, without consensus 
-- economics to incentivize resource sharing
-- chat message white or black listing to avoid spam, and sharing the lists
-- synchronized media playback between peers (i dont know why, it just seems fun...a shared experience, at a distance, would go well with group chats, like the 1990s when video was usually in sync)
-- make initial readme really short, and file list, very non-intimidiating, the base is really just UDP plus arrays of eexternally tagged values. put write_ups in their own dir, dont evne link to it from the README
