@@ -67,7 +67,7 @@ fn main() {
     for &b in BOOTSTRAP {
         send(&sock, b, &[
             json!({"PleaseSendPeers": {}}),
-            json!({"PleaseAlwaysReturnThisMessage": token_for(&*secret, b)}),
+            json!({"PleaseAlwaysReturnThisMessage": {"cookie": token_for(&*secret, b)}}),
         ]);
     }
 
@@ -84,7 +84,7 @@ fn main() {
             for peer in peers {
                 send(&sock2, &peer, &[
                     json!({"IAmHere": {"name": name2, "t": t}}),
-                    json!({"PleaseAlwaysReturnThisMessage": token_for(&*secret2, &peer)}),
+                    json!({"PleaseAlwaysReturnThisMessage": {"cookie": token_for(&*secret2, &peer)}}),
                 ]);
             }
         });
@@ -128,7 +128,9 @@ fn main() {
 
         // Verified if this packet echoes the HMAC token we would compute for this address.
         let is_verified = msgs.iter().any(|m| {
-            m.get("AlwaysReturned").and_then(|v| v.as_str()) == Some(&my_token)
+            m.get("AlwaysReturned")
+                .and_then(|v| v.get("cookie"))
+                .and_then(|v| v.as_str()) == Some(my_token.as_str())
         });
 
         let mut out: Vec<Value>          = Vec::new();
@@ -186,7 +188,9 @@ fn main() {
                     peers_list = pl.clone();
                     out.push(json!({"Peers": {"peers": pl}}));
                 }
-                if let Some(tok) = m.get("PleaseAlwaysReturnThisMessage").and_then(|v| v.as_str()) {
+                if let Some(tok) = m.get("PleaseAlwaysReturnThisMessage")
+                    .and_then(|v| v.get("cookie"))
+                    .and_then(|v| v.as_str()) {
                     their_token = Some(tok.to_string());
                 }
             }
@@ -194,11 +198,11 @@ fn main() {
 
         if !out.is_empty() {
             if let Some(ref tok) = their_token {
-                out.push(json!({"AlwaysReturned": tok}));
+                out.push(json!({"AlwaysReturned": {"cookie": tok}}));
             }
             // Include our token in every reply so an unverified peer can echo it back
             // and receive full responses starting from the very next exchange.
-            out.push(json!({"PleaseAlwaysReturnThisMessage": my_token}));
+            out.push(json!({"PleaseAlwaysReturnThisMessage": {"cookie": my_token}}));
 
             if !is_verified {
                 let payload = serde_json::to_vec(&out).unwrap_or_default();
@@ -206,7 +210,7 @@ fn main() {
                     // Minimum: our token (lets them bootstrap verification) + at most 1 peer.
                     // AlwaysReturned is dropped — unverified peers need our token to bootstrap,
                     // not proof that we are real.
-                    let mut trimmed = vec![json!({"PleaseAlwaysReturnThisMessage": my_token})];
+                    let mut trimmed = vec![json!({"PleaseAlwaysReturnThisMessage": {"cookie": my_token}})];
                     if let Some(p) = peers_list.first() {
                         trimmed.push(json!({"Peers": {"peers": [p]}}));
                     }

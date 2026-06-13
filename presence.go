@@ -66,7 +66,7 @@ func main() {
 		peers[key] = true
 		sendTo(b[0], port, []any{
 			map[string]any{"PleaseSendPeers": map[string]any{}},
-			map[string]any{"PleaseAlwaysReturnThisMessage": tokenFor(key)},
+			map[string]any{"PleaseAlwaysReturnThisMessage": map[string]any{"cookie": tokenFor(key)}},
 		})
 	}
 
@@ -77,7 +77,7 @@ func main() {
 				h, port := splitAddr(p)
 				sendTo(h, port, []any{
 					map[string]any{"IAmHere": map[string]any{"name": name, "t": t}},
-					map[string]any{"PleaseAlwaysReturnThisMessage": tokenFor(p)},
+					map[string]any{"PleaseAlwaysReturnThisMessage": map[string]any{"cookie": tokenFor(p)}},
 				})
 			}
 		}
@@ -115,9 +115,11 @@ func main() {
 		// Verified if this packet echoes the HMAC token we would compute for this address.
 		isVerified := false
 		for _, m := range msgs {
-			if tok, ok := m["AlwaysReturned"].(string); ok && tok == tokenFor(src) {
-				isVerified = true
-				break
+			if ar, ok := m["AlwaysReturned"].(map[string]any); ok {
+				if tok, ok := ar["cookie"].(string); ok && tok == tokenFor(src) {
+					isVerified = true
+					break
+				}
 			}
 		}
 
@@ -176,24 +178,24 @@ func main() {
 				}
 				out = append(out, map[string]any{"Peers": map[string]any{"peers": pl}})
 			}
-			if tok, ok := m["PleaseAlwaysReturnThisMessage"]; ok {
-				theirToken = tok
+			if patm, ok := m["PleaseAlwaysReturnThisMessage"].(map[string]any); ok {
+				theirToken = patm["cookie"]
 			}
 		}
 
 		if len(out) > 0 {
 			if theirToken != nil {
-				out = append(out, map[string]any{"AlwaysReturned": theirToken})
+				out = append(out, map[string]any{"AlwaysReturned": map[string]any{"cookie": theirToken}})
 			}
 			// Include our token in every reply so an unverified peer can echo it back
 			// and receive full responses starting from the very next exchange.
-			out = append(out, map[string]any{"PleaseAlwaysReturnThisMessage": tokenFor(src)})
+			out = append(out, map[string]any{"PleaseAlwaysReturnThisMessage": map[string]any{"cookie": tokenFor(src)}})
 
 			if !isVerified {
 				payload, _ := json.Marshal(out)
 				if float64(len(payload)) > 2.5*reqBytes {
 					// Minimum: our token (lets them bootstrap verification) + at most 1 peer.
-					trimmed := []any{map[string]any{"PleaseAlwaysReturnThisMessage": tokenFor(src)}}
+					trimmed := []any{map[string]any{"PleaseAlwaysReturnThisMessage": map[string]any{"cookie": tokenFor(src)}}}
 					for _, item := range out {
 						if pm, ok := item.(map[string]any); ok {
 							if p, ok := pm["Peers"].(map[string]any); ok {

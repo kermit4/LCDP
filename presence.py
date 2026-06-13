@@ -28,7 +28,7 @@ def split(s):
 for b in BOOTSTRAP:
     key = f"{b[0]}:{b[1]}"
     peers.add(key)
-    send(b, [{"PleaseSendPeers": {}}, {"PleaseAlwaysReturnThisMessage": token_for(key)}])
+    send(b, [{"PleaseSendPeers": {}}, {"PleaseAlwaysReturnThisMessage": {"cookie": token_for(key)}}])
 
 last_ping = last_print = 0
 
@@ -38,7 +38,7 @@ while True:
     if now - last_ping > 5:
         for p in list(peers):
             send(split(p), [{"IAmHere": {"name": NAME, "t": int(now)}},
-                            {"PleaseAlwaysReturnThisMessage": token_for(p)}])
+                            {"PleaseAlwaysReturnThisMessage": {"cookie": token_for(p)}}])
         last_ping = now
 
     if now - last_print > 10:
@@ -63,7 +63,8 @@ while True:
 
     # Verified if this packet echoes the HMAC token we would compute for this address.
     is_verified = any(
-        m.get("AlwaysReturned") == token_for(src)
+        isinstance(m.get("AlwaysReturned"), dict) and
+        m["AlwaysReturned"].get("cookie") == token_for(src)
         for m in msgs if "AlwaysReturned" in m
     )
 
@@ -88,14 +89,15 @@ while True:
         if "PleaseSendPeers" in m:
             out.append({"Peers": {"peers": list(peers)[:20]}})
         if "PleaseAlwaysReturnThisMessage" in m:
-            their_token = m["PleaseAlwaysReturnThisMessage"]
+            pat = m["PleaseAlwaysReturnThisMessage"]
+            their_token = pat.get("cookie") if isinstance(pat, dict) else None
 
     if out:
         if their_token is not None:
-            out.append({"AlwaysReturned": their_token})
+            out.append({"AlwaysReturned": {"cookie": their_token}})
         # Include our token in every reply so an unverified peer can echo it back
         # and receive full responses starting from the very next exchange.
-        out.append({"PleaseAlwaysReturnThisMessage": token_for(src)})
+        out.append({"PleaseAlwaysReturnThisMessage": {"cookie": token_for(src)}})
 
         if not is_verified:
             payload = json.dumps(out).encode()
@@ -103,7 +105,7 @@ while True:
                 # Minimum: our token (lets them bootstrap verification) + at most 1 peer.
                 # AlwaysReturned is dropped — we are not proving ourselves, just giving
                 # them what they need to prove themselves next time.
-                trimmed = [{"PleaseAlwaysReturnThisMessage": token_for(src)}]
+                trimmed = [{"PleaseAlwaysReturnThisMessage": {"cookie": token_for(src)}}]
                 for item in out:
                     if "Peers" in item:
                         trimmed.append({"Peers": {"peers": item["Peers"]["peers"][:1]}})

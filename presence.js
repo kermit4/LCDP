@@ -30,7 +30,7 @@ sock.bind(24254, () => {
   for (const [h, p] of BOOTSTRAP) {
     const key = `${h}:${p}`;
     peers.add(key);
-    send(h, p, [{ PleaseSendPeers: {} }, { PleaseAlwaysReturnThisMessage: tokenFor(key) }]);
+    send(h, p, [{ PleaseSendPeers: {} }, { PleaseAlwaysReturnThisMessage: { cookie: tokenFor(key) } }]);
   }
 });
 
@@ -43,7 +43,7 @@ sock.on('message', (data, rinfo) => {
   const reqBytes = data.length + IP_UDP_HEADER;
 
   // Verified if this packet echoes the HMAC token we would compute for this address.
-  const isVerified = msgs.some(m => m.AlwaysReturned === tokenFor(src));
+  const isVerified = msgs.some(m => m.AlwaysReturned && m.AlwaysReturned.cookie === tokenFor(src));
 
   const out = [];
   let theirToken = null;
@@ -60,21 +60,21 @@ sock.on('message', (data, rinfo) => {
         .map(([name, v]) => ({ name, ...v })) } });
     }
     if (m.PleaseSendPeers) out.push({ Peers: { peers: [...peers].slice(0, 20) } });
-    if (m.PleaseAlwaysReturnThisMessage) theirToken = m.PleaseAlwaysReturnThisMessage;
+    if (m.PleaseAlwaysReturnThisMessage) theirToken = m.PleaseAlwaysReturnThisMessage.cookie;
   }
 
   if (out.length) {
-    if (theirToken !== null) out.push({ AlwaysReturned: theirToken });
+    if (theirToken !== null) out.push({ AlwaysReturned: { cookie: theirToken } });
     // Include our token in every reply so an unverified peer can echo it back
     // and receive full responses starting from the very next exchange.
-    out.push({ PleaseAlwaysReturnThisMessage: tokenFor(src) });
+    out.push({ PleaseAlwaysReturnThisMessage: { cookie: tokenFor(src) } });
 
     let reply = out;
     if (!isVerified) {
       const payload = Buffer.from(JSON.stringify(out));
       if (payload.length > 2.5 * reqBytes) {
         // Minimum: our token (lets them bootstrap verification) + at most 1 peer.
-        const trimmed = [{ PleaseAlwaysReturnThisMessage: tokenFor(src) }];
+        const trimmed = [{ PleaseAlwaysReturnThisMessage: { cookie: tokenFor(src) } }];
         const peersMsg = out.find(m => m.Peers);
         if (peersMsg) trimmed.push({ Peers: { peers: peersMsg.Peers.peers.slice(0, 1) } });
         reply = trimmed;
@@ -88,7 +88,7 @@ setInterval(() => {
   const t = Math.floor(Date.now() / 1000);
   for (const p of peers) {
     const [h, port] = split(p);
-    send(h, port, [{ IAmHere: { name: NAME, t } }, { PleaseAlwaysReturnThisMessage: tokenFor(p) }]);
+    send(h, port, [{ IAmHere: { name: NAME, t } }, { PleaseAlwaysReturnThisMessage: { cookie: tokenFor(p) } }]);
   }
 }, 5000);
 

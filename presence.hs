@@ -107,7 +107,7 @@ main = do
     forM_ bootstrap $ \peer ->
         sendStr sock peer
             [ kv "PleaseSendPeers" (Object KM.empty)
-            , kv "PleaseAlwaysReturnThisMessage" (toJSON (tok peer))
+            , kv "PleaseAlwaysReturnThisMessage" (object ["cookie" .= tok peer])
             ]
 
     _ <- forkIO $ forever $ do
@@ -117,7 +117,7 @@ main = do
         forM_ (Set.toList peers) $ \peer ->
             sendStr sock peer
                 [ kv "IAmHere" $ object ["name" .= name, "t" .= now]
-                , kv "PleaseAlwaysReturnThisMessage" (toJSON (tok peer))
+                , kv "PleaseAlwaysReturnThisMessage" (object ["cookie" .= tok peer])
                 ]
 
     _ <- forkIO $ forever $ do
@@ -139,7 +139,8 @@ main = do
                 Just msgs -> do
                     -- Verified if this packet echoes the HMAC token for this address.
                     let isVerified = any
-                          (\case Object km -> get "AlwaysReturned" km == Just (toJSON (tok src))
+                          (\case Object km | Just (Object ar) <- get "AlwaysReturned" km
+                                           -> get "cookie" ar == Just (toJSON (tok src))
                                  _         -> False)
                           msgs
 
@@ -208,7 +209,7 @@ main = do
                             -- Include our token in every reply so an unverified peer can
                             -- echo it back and receive full responses next exchange.
                             full = reverse (kv "PleaseAlwaysReturnThisMessage"
-                                               (toJSON (tok src)) : withEcho)
+                                               (object ["cookie" .= tok src]) : withEcho)
                         finalOut <-
                             if isVerified then return full
                             else do
@@ -222,7 +223,7 @@ main = do
                                                 (p:_) -> [kv "Peers" (object ["peers" .= [p]])]
                                                 []    -> []
                                         return $ kv "PleaseAlwaysReturnThisMessage"
-                                                     (toJSON (tok src)) : onePeer
+                                                     (object ["cookie" .= tok src]) : onePeer
                                     else return full
                         sendPkt sock srcAddr finalOut
             recvLoop
