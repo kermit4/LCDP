@@ -10,13 +10,13 @@ Abstract
 
    The Lowest Common Denominator Protocol (LCDP) is a message-oriented,
    peer-to-peer wire format consisting of UTF-8 encoded JSON arrays of
-   externally tagged objects transported over datagrams. LCDP provides
-   perpetual compatibility by extension rather than versioning: unknown
-   message types and fields are ignored. This document describes the
-   wire format, core message types for peer discovery and anti-
-   spoofing, and the design rationale. Security, reliability, and
-   congestion control are delegated to optional messages or higher
-   layers.
+   externally tagged objects with object payloads transported over
+   datagrams. LCDP provides perpetual compatibility by extension rather
+   than versioning: unknown message types and fields are ignored. This
+   document describes the wire format, core message types for peer
+   discovery and anti-spoofing, and the design rationale. Security,
+   reliability, and congestion control are delegated to optional
+   messages or higher layers.
 
 Status of This Memo
 
@@ -75,9 +75,16 @@ Table of Contents
    build additional properties only as needed.
 
    The complete wire format is a UTF-8 encoded JSON array. Each element
-   is a single-key object where the key identifies the message type.
-   Receivers MUST tolerate objects with unknown keys and MUST tolerate
-   unknown fields within known objects.
+   is a single-key object where the key identifies the message type and
+   the value is a JSON object. Receivers MUST tolerate objects with
+   unknown keys and MUST tolerate unknown fields within known objects.
+
+   As of 2026, network bandwidth and CPU cycles are no longer the
+   primary bottlenecks for many applications. Development velocity,
+   interoperability, and debuggability have become the limiting factors.
+   JSON provides reliable generation and parsing by automated tools
+   including language models, and permits inspection with standard text
+   tools without specialized decoders.
 
    This document is Informational and is an Independent Submission. It
    does not define a Standards Track protocol and makes no claim to
@@ -98,18 +105,20 @@ Table of Contents
 
    2. Encoding: Each datagram payload MUST be valid UTF-8 [RFC8259]
        encoding a single JSON array. Array elements MUST be objects
-       with exactly one key.
+       with exactly one key. The value of that key MUST be a JSON
+       object, which MAY be empty.
 
+
+Pearson Expires 3 December 2026 [Page 2]
    3. Extensibility: Receivers MUST ignore objects with unknown keys
        and MUST ignore unknown fields within known objects. New message
        types MAY be defined at any time. New fields MAY be added to
        existing message types. The semantics of existing fields MUST
-       NOT change.
+       NOT change. Implementations MUST NOT change the type of a
+       message payload; payloads are always JSON objects.
 
-
-Pearson Expires 3 December 2026 [Page 2]
    4. MTU Considerations: Senders SHOULD limit datagrams to 5888 bytes
-       to avoid excessive IP fragmentation, and MAY limit datagrams to 
+       to avoid excessive IP fragmentation, and MAY limit datagrams to
        1200 bytes.
 
 4. Core Message Types
@@ -117,14 +126,14 @@ Pearson Expires 3 December 2026 [Page 2]
 4.1. Anti-Spoofing
 
    To mitigate reflection and amplification attacks, implementations
-   MUST implement a source address verificitaion mechanism.
+   MUST implement a source address verification mechanism.
 
    Implementations SHOULD verify source addresses by exchanging:
 
-   [{"PleaseAlwaysReturnThisMessage":["cookie","string"]}]
-   [{"AlwaysReturned":["cookie","string"]}]
+   [{"PleaseAlwaysReturnThisMessage":{"cookie":"string"}}]
+   [{"AlwaysReturned":{"cookie":"string"}}]
 
-   Per [RFC8085] Section 6, receivers MUST NOT reply with responses 
+   Per [RFC8085] Section 6, receivers MUST NOT reply with responses
    larger than twice the request size to unverified sources.
 
 4.2. Optional Peer Discovery
@@ -157,6 +166,8 @@ Pearson Expires 3 December 2026 [Page 2]
        communication with large numbers of peers with minimal per-peer
        state.
 
+
+Pearson Expires 3 December 2026 [Page 3]
    2. Extensibility: Compatibility is achieved by ignoring unknown
        data, not by version negotiation. Incompatible changes require
        new message types.
@@ -164,10 +175,15 @@ Pearson Expires 3 December 2026 [Page 2]
    3. Transport Agnosticism: While UDP is RECOMMENDED, the format may
        be carried over other datagram services.
 
-
-Pearson Expires 3 December 2026 [Page 3]
    4. Debuggability: The use of UTF-8 JSON permits inspection with
-       standard tools such as tcpdump -A.
+       standard tools such as tcpdump -A. Textual formats also enable
+       reliable generation and validation by automated tools, reducing
+       implementation friction in 2026 deployment environments.
+
+   5. Bottleneck Shift: The design assumes that engineering time and
+       cross-implementation compatibility cost more than bandwidth or
+       parsing overhead for target use cases. Applications with
+       extreme bandwidth constraints MAY choose alternative encodings.
 
 6. Security Considerations
 
@@ -206,6 +222,8 @@ Pearson Expires 3 December 2026 [Page 3]
               DOI 10.17487/RFC768, August 1980,
               <https://www.rfc-editor.org/info/rfc768>.
 
+
+Pearson Expires 3 December 2026 [Page 4]
    [RFC8174] Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
@@ -219,8 +237,6 @@ Pearson Expires 3 December 2026 [Page 3]
               Guidelines", BCP 145, RFC 8085, DOI 10.17487/RFC8085,
               March 2017, <https://www.rfc-editor.org/info/rfc8085>.
 
-
-Pearson Expires 3 December 2026 [Page 4]
 9. Informative References
 
    [RFC7252] Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
