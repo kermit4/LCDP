@@ -1,10 +1,10 @@
 Internet Engineering Task Force                               C. Pearson
 Internet-Draft                                    Independent Submission
-Intended status: Informational                               6 June 2026
-Expires: 3 December 2026
+Intended status: Informational                              19 June 2026
+Expires: 21 December 2026
 
                 Lowest Common Denominator Protocol (LCDP)
-                       draft-pearson-lcdp-03
+                       draft-pearson-lcdp-04
 
 Abstract
 
