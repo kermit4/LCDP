@@ -27,8 +27,8 @@ These are not in the wiki. We are making them up right now. That is allowed. Use
 ```json
 {"PleaseSendPeers": {}}
 {"Peers": {"peers": ["148.71.89.128:24254", "1.2.3.4:5678"]}}
-{"PleaseAlwaysReturnThisMessage": "per-peer-random-token"}
-{"AlwaysReturned": "per-peer-random-token"}
+{"PleaseAlwaysReturnThisMessage": {"cookie": "per-peer-random-token"}}
+{"AlwaysReturned": {"cookie": "per-peer-random-token"}}
 ```
 
 `PleaseAlwaysReturnThisMessage` is the anti-spoof mechanism. Use a **distinct** random token per peer — the same token for everyone defeats the purpose, because anyone who reads a packet could reuse that token to spoof another peer's address and make your node flood them with large responses. Echo a peer's token back with `AlwaysReturned` in any packet where you are already replying.
@@ -57,8 +57,8 @@ Bootstrap nodes already running on the internet:
 Use these existing message types:
   {"PleaseSendPeers":{}}
   {"Peers":{"peers":["ip:port",...]}}
-  {"PleaseAlwaysReturnThisMessage":"<token>"}   -- include in every outgoing packet; use a DISTINCT random token per peer
-  {"AlwaysReturned":"<token>"}                  -- echo back whenever you are already replying
+  {"PleaseAlwaysReturnThisMessage":{"cookie":"<token>"}}   -- include in every outgoing packet; use a DISTINCT random token per peer
+  {"AlwaysReturned":{"cookie":"<token>"}}                  -- echo back whenever you are already replying
 
 Add these new message types:
   {"IAmHere":{"name":"alice","t":1748789123}}   -- I am present; t is Unix seconds

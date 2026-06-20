@@ -6,7 +6,7 @@ rand = "0.8"
 hmac = "0.12"
 sha2 = "0.10"
 hex = "0.4"
-nix = { version = "0.29", features = ["select"] }
+nix = { version = "0.29", features = ["poll"] }
 ---
 
 use std::collections::{HashMap, HashSet};
@@ -60,7 +60,7 @@ fn main() {
     for &b in BOOTSTRAP {
         send(&sock, b, &[
             json!({"PleaseSendPeers": {}}),
-            json!({"PleaseAlwaysReturnThisMessage": token_for(&secret, b)}),
+            json!({"PleaseAlwaysReturnThisMessage": {"cookie": token_for(&secret, b)}}),
         ]);
     }
 
@@ -78,7 +78,7 @@ fn main() {
             for peer in peers.iter().cloned().collect::<Vec<_>>() {
                 send(&sock, &peer, &[
                     json!({"IAmHere": {"name": name, "t": t}}),
-                    json!({"PleaseAlwaysReturnThisMessage": token_for(&secret, &peer)}),
+                    json!({"PleaseAlwaysReturnThisMessage": {"cookie": token_for(&secret, &peer)}}),
                 ]);
             }
         }
@@ -129,7 +129,9 @@ fn main() {
         let my_token  = token_for(&secret, &src);
 
         let is_verified = msgs.iter().any(|m| {
-            m.get("AlwaysReturned").and_then(|v| v.as_str()) == Some(&my_token)
+            m.get("AlwaysReturned")
+                .and_then(|v| v.get("cookie"))
+                .and_then(|v| v.as_str()) == Some(my_token.as_str())
         });
 
         let mut out: Vec<Value>             = Vec::new();
@@ -185,21 +187,23 @@ fn main() {
                 peers_list = pl.clone();
                 out.push(json!({"Peers": {"peers": pl}}));
             }
-            if let Some(tok) = m.get("PleaseAlwaysReturnThisMessage").and_then(|v| v.as_str()) {
+            if let Some(tok) = m.get("PleaseAlwaysReturnThisMessage")
+                .and_then(|v| v.get("cookie"))
+                .and_then(|v| v.as_str()) {
                 their_token = Some(tok.to_string());
             }
         }
 
         if !out.is_empty() {
             if let Some(ref tok) = their_token {
-                out.push(json!({"AlwaysReturned": tok}));
+                out.push(json!({"AlwaysReturned": {"cookie": tok}}));
             }
-            out.push(json!({"PleaseAlwaysReturnThisMessage": my_token}));
+            out.push(json!({"PleaseAlwaysReturnThisMessage": {"cookie": my_token}}));
 
             if !is_verified {
                 let payload = serde_json::to_vec(&out).unwrap_or_default();
                 if payload.len() > (req_bytes as f64 * 2.5) as usize {
-                    let mut trimmed = vec![json!({"PleaseAlwaysReturnThisMessage": my_token})];
+                    let mut trimmed = vec![json!({"PleaseAlwaysReturnThisMessage": {"cookie": my_token}})];
                     if let Some(p) = peers_list.first() {
                         trimmed.push(json!({"Peers": {"peers": [p]}}));
                     }
