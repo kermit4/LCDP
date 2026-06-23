@@ -43,6 +43,15 @@ fn send(sock: &UdpSocket, addr: &str, msgs: &[Value]) {
     }
 }
 
+// The anti-spoof token rides inside a {"cookie": ...} object. Keep that shape
+// in one place so it can never drift between sites again.
+fn cookie(tok: &str) -> Value {
+    json!({ "cookie": tok })
+}
+fn cookie_of<'a>(m: &'a Value, key: &str) -> Option<&'a str> {
+    m.get(key)?.get("cookie")?.as_str()
+}
+
 fn main() {
     let name = env::args().nth(1)
         .or_else(|| env::var("NAME").ok())
@@ -60,7 +69,7 @@ fn main() {
     for &b in BOOTSTRAP {
         send(&sock, b, &[
             json!({"PleaseSendPeers": {}}),
-            json!({"PleaseAlwaysReturnThisMessage": {"cookie": token_for(&secret, b)}}),
+            json!({"PleaseAlwaysReturnThisMessage": cookie(&token_for(&secret, b))}),
         ]);
     }
 
@@ -78,7 +87,7 @@ fn main() {
             for peer in peers.iter().cloned().collect::<Vec<_>>() {
                 send(&sock, &peer, &[
                     json!({"IAmHere": {"name": name, "t": t}}),
-                    json!({"PleaseAlwaysReturnThisMessage": {"cookie": token_for(&secret, &peer)}}),
+                    json!({"PleaseAlwaysReturnThisMessage": cookie(&token_for(&secret, &peer))}),
                 ]);
             }
         }
@@ -128,11 +137,8 @@ fn main() {
         let now       = now_secs();
         let my_token  = token_for(&secret, &src);
 
-        let is_verified = msgs.iter().any(|m| {
-            m.get("AlwaysReturned")
-                .and_then(|v| v.get("cookie"))
-                .and_then(|v| v.as_str()) == Some(my_token.as_str())
-        });
+        let is_verified = msgs.iter()
+            .any(|m| cookie_of(m, "AlwaysReturned") == Some(my_token.as_str()));
 
         let mut out: Vec<Value>             = Vec::new();
         let mut their_token: Option<String> = None;
@@ -187,23 +193,21 @@ fn main() {
                 peers_list = pl.clone();
                 out.push(json!({"Peers": {"peers": pl}}));
             }
-            if let Some(tok) = m.get("PleaseAlwaysReturnThisMessage")
-                .and_then(|v| v.get("cookie"))
-                .and_then(|v| v.as_str()) {
+            if let Some(tok) = cookie_of(m, "PleaseAlwaysReturnThisMessage") {
                 their_token = Some(tok.to_string());
             }
         }
 
         if !out.is_empty() {
             if let Some(ref tok) = their_token {
-                out.push(json!({"AlwaysReturned": {"cookie": tok}}));
+                out.push(json!({"AlwaysReturned": cookie(tok)}));
             }
-            out.push(json!({"PleaseAlwaysReturnThisMessage": {"cookie": my_token}}));
+            out.push(json!({"PleaseAlwaysReturnThisMessage": cookie(&my_token)}));
 
             if !is_verified {
                 let payload = serde_json::to_vec(&out).unwrap_or_default();
                 if payload.len() > (req_bytes as f64 * 2.5) as usize {
-                    let mut trimmed = vec![json!({"PleaseAlwaysReturnThisMessage": {"cookie": my_token}})];
+                    let mut trimmed = vec![json!({"PleaseAlwaysReturnThisMessage": cookie(&my_token)})];
                     if let Some(p) = peers_list.first() {
                         trimmed.push(json!({"Peers": {"peers": [p]}}));
                     }
