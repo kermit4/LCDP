@@ -1,6 +1,6 @@
 # 1. the (un)protocol
 
-UTF-8 encoded JSON array of externally tagged messages.     Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
+UTF-8 encoded JSON array of objects with one key that contain an object ("message") with any number, including 0, of key:values .     Do not change the meaning of already used messages except by adding fields.   Tolerate unrecognized messages and fields.
 
 https://datatracker.ietf.org/doc/html/draft-pearson-lcdp
 
