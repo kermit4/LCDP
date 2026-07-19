@@ -70,8 +70,6 @@ LCDP is a perfect carrier for Nostr. Define an optional LCDP message type:
 ]
 ```
 
-An old LCDP node that doesn't know `nostr_event` will just skip that object and still process the cookie and keep the connection alive. That's perpetual compatibility.
-
 Nostr gets transport independence. LCDP gets a real social use case.
 
 ## Conclusion
