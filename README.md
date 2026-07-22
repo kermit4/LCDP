@@ -32,6 +32,7 @@ Telegram group: https://t.me/lowest_common_denominator
 - [agents_love_it.md](agents_love_it.md)
 - [the_hidden_front_line_of_the_battle_for_free_speech.md](the_hidden_front_line_of_the_battle_for_free_speech.md)
 - [lcdp_description_for_libp2p_users.md](lcdp_description_for_libp2p_users.md)
+- [how_lcdp_contrasts_to_nostr.md](how_lcdp_contrasts_to_nostr.md)
 
 ## fun things to try
 
