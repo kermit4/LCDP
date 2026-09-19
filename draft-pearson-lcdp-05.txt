@@ -1,0 +1,812 @@
+Internet Engineering Task Force                               C. Pearson
+Internet-Draft                                    Independent Submission
+Intended status: Informational                         18 September 2026
+Expires: 22 March 2027
+
+                Lowest Common Denominator Protocol (LCDP)
+                       draft-pearson-lcdp-05
+
+Abstract
+
+   The Lowest Common Denominator Protocol (LCDP) is a message-oriented,
+   peer-to-peer wire format consisting of UTF-8 encoded JSON arrays of
+   externally tagged objects with object payloads transported over
+   datagrams. LCDP provides perpetual compatibility by extension rather
+   than versioning: unknown message types and fields are ignored. This
+   document describes the wire format, core message types for peer
+   discovery and anti-spoofing, and the design rationale. Security,
+   reliability, and congestion control are delegated to optional
+   messages or higher layers.
+
+   This revision records the results of interoperability testing
+   between two independent implementations and closes the ambiguities
+   that testing exposed.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF). Note that other groups may also distribute
+   working documents as Internet-Drafts. The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time. It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 22 March 2027.
+
+Copyright Notice
+
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors. All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document. Code Components
+   extracted from this document must include Simplified BSD License text
+   as described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Simplified BSD License.
+
+
+Pearson Expires 22 March 2027 [Page 1]
+
+Table of Contents
+
+   1. Introduction................ 2
+   2. Terminology................. 2
+   3. Wire Format................. 3
+   4. Core Message Types.......... 5
+   5. Design Considerations....... 8
+   6. Security Considerations..... 9
+   7. IANA Considerations........ 10
+   8. Normative References....... 10
+   9. Informative References..... 11
+   Appendix A. Changes from draft-04..... 11
+   Appendix B. Implementation Experience. 12
+   Acknowledgments............... 13
+   Author's Address.............. 13
+
+1. Introduction
+
+   Many peer-to-peer protocols begin by establishing a connection-
+   oriented session over UDP, then layer streams, negotiation, and
+   mandatory cryptography on top. LCDP takes an alternative approach:
+   define a minimal datagram message format and allow applications to
+   build additional properties only as needed.
+
+   The complete wire format is a UTF-8 encoded JSON array. Each element
+   is a single-key object where the key identifies the message type and
+   the value is a JSON object. Receivers MUST tolerate objects with
+   unknown keys and MUST tolerate unknown fields within known objects.
+
+   As of 2026, network bandwidth and CPU cycles are no longer the
+   primary bottlenecks for many applications. Development velocity,
+   interoperability, and debuggability have become the limiting factors.
+   JSON provides reliable generation and parsing by automated tools
+   including language models, and permits inspection with standard text
+   tools without specialized decoders.
+
+   Two independent implementations have now exchanged traffic. That
+   exercise confirmed the central design claim -- extension by ignoring
+   unknown data worked in both directions, with neither implementation
+   disturbed by the other's private message types -- and it exposed a
+   set of points on which this document had been silent. Silence is
+   not tolerance: where two implementations must agree and the
+   specification does not say on what, they agree by accident or not at
+   all. Sections 3.3, 3.5, 3.6, 3.7, 4.1 and 4.3 close those points.
+   Appendix B records the evidence.
+
+   This document is Informational and is an Independent Submission. It
+   does not define a Standards Track protocol and makes no claim to
+   replace existing protocols such as CoAP [RFC7252].
+
+2. Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+
+Pearson Expires 22 March 2027 [Page 2]
+   Datagram: one transport payload, carrying one JSON array.
+
+   Message: one element of that array; a single-key object whose key is
+   the message type and whose value is the payload object.
+
+   Bundle: the set of messages carried by one datagram. A datagram
+   always carries a bundle, which may hold one message.
+
+3. Wire Format
+
+3.1. Transport
+
+   UDP [RFC768] is RECOMMENDED. Other datagram transports MAY be used,
+   i.e. websockets. Port 24254 is used by convention.
+
+   The conventional port is a hint for discovery only. An
+   implementation MUST NOT treat a source port of 24254 as evidence of
+   anything about the sender: a source port is as forgeable as a source
+   address, and the source verification of Section 4.1 is the only
+   mechanism this document defines for establishing that a source can
+   receive.
+
+3.2. Encoding
+
+   Each datagram payload MUST be valid UTF-8 [RFC8259] encoding a
+   single JSON array. Array elements MUST be objects with exactly one
+   key. The value of that key MUST be a JSON object, which MAY be
+   empty.
+
+   A JSON object in an LCDP datagram MUST NOT contain duplicate keys.
+   [RFC8259] permits duplicates and defines no resolution for them, so
+   two implementations may differ on whether the first or the last
+   occurrence prevails. A receiver MUST refuse a datagram containing
+   any object with a duplicate key rather than choose between them.
+   This is not a matter of taste: Section 4.3 signs a payload that a
+   verifier and a reader must agree on, and a duplicate key is a way to
+   show them different documents under one signature.
+
+3.3. Datagram Processing
+
+   A datagram carries a bundle, and a receiver MUST process every
+   message in it, not only the first. Bundling is ordinary rather than
+   exceptional: the source verification of Section 4.1 travels
+   alongside whatever the peer was already sending, so a datagram
+   spelled
+
+   [{"AlwaysReturned":{"cookie":"..."}},{"SomeApplicationMessage":{}}]
+
+   is routine, and a receiver that stops after the first element
+   silently discards the second. Where that discarded element is the
+   cookie exchange, source verification never completes and the two
+   peers stall while each believes the other is at fault.
+
+   The order of messages within a datagram is not significant. A
+   receiver MUST NOT require any particular order and MUST NOT assume
+   that a message it has read is not answered by one later in the same
+
+
+Pearson Expires 22 March 2027 [Page 3]
+   bundle. In particular, a bundle MAY carry both a challenge and the
+   answer to a previous challenge, in either order; a receiver that
+   evaluates answers before challenges avoids challenging a source that
+   has, in that same datagram, already verified itself.
+
+   A reply MAY bundle several messages into one datagram, and SHOULD do
+   so in preference to sending them separately.
+
+   Section 3.4's rule that unknown data is ignored applies to data that
+   is well formed and unrecognised. It does not apply to data that
+   violates this section or Section 3.2. A receiver MUST refuse a
+   datagram that is not valid UTF-8, does not hold a JSON array, or
+   holds an element that is not an object with exactly one key whose
+   value is an object. Refusing the datagram, rather than skipping the
+   offending element, keeps a malformed element from being a way to
+   hide a message from one implementation while another reads it.
+
+3.4. Extensibility
+
+   Receivers MUST ignore objects with unknown keys and MUST ignore
+   unknown fields within known objects. New message types MAY be
+   defined at any time. New fields MAY be added to existing message
+   types. The semantics of existing fields MUST NOT change.
+   Implementations MUST NOT change the type of a message payload;
+   payloads are always JSON objects.
+
+   The JSON type of a field is part of that field's identity. An
+   implementation MUST NOT send a field bearing a name already in use
+   with a different JSON type, and MUST NOT redefine the type of a
+   field it has previously sent. Changing a field from a boolean to a
+   number is an incompatible change and requires a new field name, or a
+   new message type, exactly as a change of meaning does.
+
+   This rule is easy to keep by accident and easy to break by accident.
+   Two parties who have never met can coin the same field name
+   independently, give it two types, and produce a collision that
+   neither has violated any rule to create. Appendix B records one
+   such collision found in deployment.
+
+   To make independent coinage safe, an implementation defining a
+   message type not described in this document or its successors SHOULD
+   prefix that type's name with a short namespace it controls,
+   separated by a period, for example
+
+   [{"example.MyOwnMessage":{}}]
+
+   A receiver treats a namespaced type it does not know exactly as it
+   treats any other unknown type: it ignores it. Names without a
+   period are reserved for types defined by this document and by
+   documents that update it.
+
+3.5. Size Limits
+
+   Senders SHOULD limit datagrams to 5888 bytes to avoid excessive IP
+   fragmentation, and MAY limit datagrams to 1200 bytes.
+
+
+Pearson Expires 22 March 2027 [Page 4]
+   These figures constrain senders. They do not describe what a
+   receiver will be sent. A receiver MUST accept a datagram of any size
+   its transport can deliver, which for UDP is 65535 octets, and MUST
+   NOT size its receive buffer from the sending limit above. An
+   implementation that reads into a 5888-octet buffer truncates
+   conforming traffic from a sender that has chosen a larger limit, and
+   truncation presents as a parse failure some distance from its cause.
+
+   A receiver MUST refuse a datagram larger than 65535 octets before
+   parsing it, including before validating its UTF-8. This bounds the
+   work a stranger can ask for, and satisfies Section 6.4 without
+   making the refusal depend on how much room the receiver happened to
+   leave.
+
+3.6. Field Bounds
+
+   This document places no length limit on any string or array it
+   defines. A receiver MUST NOT infer from that silence that it should
+   allocate whatever a datagram asks for: a cookie, a peer list, an
+   address, or an opaque parameter string arriving from an unverified
+   stranger is an allocation request from an unverified stranger.
+
+   A receiver MUST impose its own limit on the length of every string
+   and the cardinality of every array it decodes, and MUST refuse a
+   message that exceeds one. Those limits are a local matter and need
+   not be announced. Implementations SHOULD set them well above any
+   length a conforming sender has reason to write, so that a limit is
+   reached only by a sender that is malfunctioning or hostile.
+
+3.7. Hexadecimal Fields
+
+   Every field this document specifies as hexadecimal MUST be sent as
+   lowercase hexadecimal with no prefix and no separators, and MUST
+   have the exact length its definition requires.
+
+   A receiver MUST NOT canonicalize a hexadecimal field it is given; it
+   refuses a field that is not already in that form. Hexadecimal
+   fields identify things, and a value that can be spelled two ways is
+   two identifiers for one object: it defeats comparison, defeats
+   deduplication by key, and lets the same object be cached, counted or
+   rate-limited twice. Accepting both spellings and normalizing does
+   not fix this, because two implementations that normalize differently
+   are back where they started.
+
+   A sender MUST NOT emit a "0x" prefix. A receiver MAY strip one
+   before applying the rule above, and this is the one exception to
+   "MUST NOT canonicalize": stripping a fixed, unambiguous prefix
+   cannot map two distinct values onto one, which is the harm the rule
+   exists to prevent, whereas case folding can. A receiver that strips
+   a prefix MUST still refuse the remainder if it is not lowercase and
+   of the required length.
+
+4. Core Message Types
+
+4.1. Anti-Spoofing
+
+   To mitigate reflection and amplification attacks, implementations
+   MUST implement a source address verification mechanism.
+
+   Implementations SHOULD verify source addresses by exchanging:
+
+
+Pearson Expires 22 March 2027 [Page 5]
+   [{"PleaseAlwaysReturnThisMessage":{"cookie":"string"}}]
+   [{"AlwaysReturned":{"cookie":"string"}}]
+
+   The cookie is an opaque string. A receiver echoes it byte for byte
+   and MUST NOT interpret it. A sender SHOULD use a distinct
+   unpredictable cookie per source address, so that an echo is evidence
+   that the echoing party received the challenge rather than guessed
+   it. A receiver MUST bound the cookie length per Section 3.6; an
+   unbounded echo is itself the amplifier this section exists to
+   prevent.
+
+   A source is verified when it returns a cookie the receiver issued to
+   that same address, within whatever lifetime the receiver gives its
+   cookies.
+
+4.1.1. The Amplification Bound
+
+   Per [RFC8085] Section 6, receivers MUST NOT reply with responses
+   larger than twice the request size to unverified sources.
+
+   Two details of that arithmetic must be fixed, because two
+   implementations that compute it differently will disagree about
+   whether a conforming reply was owed.
+
+   First, the bound is over a source's accumulated traffic, not over a
+   single datagram. A receiver SHOULD maintain a byte credit per source
+   address, add each datagram received from it, and subtract each
+   datagram sent to it, withholding any reply the remaining credit will
+   not cover. Evaluating the bound per datagram makes the protocol
+   unable to start: a bare request may be smaller than half the
+   challenge that answers it, in which case a strictly conforming
+   receiver can never issue the challenge and the source can never
+   become verified. With accumulated credit, a peer that asks again
+   gets through in a small number of datagrams. An implementation MAY
+   instead exempt a single outstanding challenge per source from the
+   bound, provided it sends no more than one such challenge per source
+   per round-trip interval and the challenge is of fixed size.
+
+   Second, the bound is over what the network carries, not over what
+   the application wrote. An implementation SHOULD count the IP and UDP
+   header octets on both sides of the ledger -- as credit for a
+   datagram received and as cost for a datagram sent -- because it is
+   whole packets that an amplifier amplifies. An implementation that
+   counts payload octets only MUST do so on both sides. Counting
+   headers on one side alone misstates the ratio in whichever direction
+   the omission falls.
+
+   Content sent to an unverified source is subject to the bound like
+   everything else; it is not separately forbidden. An earlier
+   revision of this text forbade it "at any ratio", which was an
+   overreach: a reply that fits within the bound is not an amplifier,
+   and the reference implementation deliberately answers an unverified
+   requester with a small content piece so that a simple client is not
+   left waiting. A receiver SHOULD, however, keep such a reply to a
+   fixed small size rather than one the requester chose.
+
+   The cookie echo of Section 4.1 is exempt from the bound. It must
+   reach an unverified source -- that is what verification is -- and
+   its size is bounded by Section 3.6 rather than by the requester.
+   This exemption and the challenge exemption above are the only two.
+
+   Implementations MAY apply a ratio stricter than twice the request;
+   one-for-one costs an honest peer at most one additional round trip.
+
+
+Pearson Expires 22 March 2027 [Page 6]
+4.1.2. Challenging a Verified Source
+
+   A receiver MAY treat verification as a property of each datagram
+   rather than of a source, requiring the cookie to be echoed in every
+   datagram it is asked to act on. The reference implementation does
+   exactly this: any datagram that does not itself carry a valid echo
+   is answered as though the source were unverified, and draws a fresh
+   challenge. Independently of that, an implementation MAY challenge a
+   source it has already verified, as a liveness check or to re-bind an
+   address.
+
+   A sender SHOULD therefore carry the most recent cookie it has been
+   given in every datagram it sends to that peer, rather than echoing
+   once and considering the matter settled. A sender that echoes only
+   when challenged will be treated as unverified on every datagram in
+   between, and will receive whatever reply an unverified source is
+   owed -- which is the failure this paragraph exists to prevent.
+
+   A receiver MUST NOT treat the arrival of a challenge as evidence
+   that its own verification has lapsed, that a transaction in progress
+   has failed, or that the peer is misbehaving. It answers the
+   challenge, alongside whatever else the bundle called for, and
+   continues. An implementation that counts challenges toward a
+   handshake attempt limit will abort long-running exchanges with
+   conforming peers, since a long exchange accumulates challenges in
+   proportion to its length.
+
+   A source that has completed verification SHOULD still be rate
+   limited. Verification establishes that an address can receive; it
+   establishes nothing about volume.
+
+4.2. Optional Peer Discovery
+
+   [{"PleaseSendPeers":{}}]
+   [{"Peers":{"peers":["198.51.100.1:24254"]}}]
+   [{"WhereAreThey":{"ed25519h":"hex"}}]
+
+   The Peers message contains an array of address:port strings. The
+   address format is not constrained by this specification; a receiver
+   treats each entry as an opaque string and MUST bound the list length
+   and each entry's length per Section 3.6.
+
+   "WhereAreThey" asks for the address of the peer holding a public
+   key, spelled as Section 4.3 spells it.
+
+4.3. Optional Cryptography
+
+   [{"MyPublicKey":{"ed25519h":"hex"}}]
+   [{"SignedMessage":{"ed25519":"hex","signature":"base64",
+   "payload_json":"string"}}]
+   [{"EncryptedMessages":{"base64":"string","noise_params":"string"}}]
+
+4.3.1. Public Keys
+
+   "ed25519h" and "SignedMessage"'s "ed25519" field carry the same
+   thing under two names: the 32-octet raw Ed25519 public key
+   [RFC8032], lowercase hex, exactly 64 digits, per Section 3.7. It is
+   not a hash of a key; the trailing "h" abbreviates the encoding, not
+   a digest. Both spellings are retained for compatibility with
+   deployed senders. New message types SHOULD use "ed25519".
+
+   A receiver MUST refuse a key that is not 64 hexadecimal digits, and
+   SHOULD refuse one that does not decode to a valid compressed Edwards
+   point, since no signature will verify under it and accepting it only
+   defers the failure.
+
+
+Pearson Expires 22 March 2027 [Page 7]
+4.3.2. Signed Messages
+
+   "signature" is the base64 encoding [RFC4648] of the 64-octet Ed25519
+   signature, made with the key in "ed25519".
+
+   The signature is computed over the payload octets exactly as they
+   appear on the wire:
+
+   o  where "payload_json" is present, the UTF-8 octets of that string
+      as transmitted, before any JSON parsing and without
+      re-serialization; or
+
+   o  where "payload" is present, a base64 string, the octets it
+      decodes to.
+
+   A signer MUST NOT re-serialize, re-order, re-indent or otherwise
+   canonicalize the payload before or after signing; the signature
+   covers a byte string, and any transformation between signing and
+   sending invalidates it. A verifier MUST verify against the octets it
+   received, and MUST NOT parse the payload before the signature
+   verifies.
+
+   Exactly one of "payload_json" and "payload" MUST be present. A
+   receiver MUST refuse a "SignedMessage" carrying both, and MUST
+   refuse one carrying neither. Two payload fields under one signature
+   are two documents with one authentication: a receiver that prefers
+   one field while another receiver prefers the other can be shown
+   different content by the same signed message, with both verifying.
+
+   The payload MUST itself be a complete LCDP datagram: a JSON array of
+   single-key objects, per Section 3.2. A verifier processes the
+   messages it contains after the signature verifies, applying every
+   rule of Section 3.3 to them, and MUST apply Section 3.5's size limit
+   to the payload as it would to a datagram off the wire.
+
+4.3.3. Encrypted Messages
+
+   The OPTIONAL "EncryptedMessages" message type MUST encapsulate this
+   protocol, i.e. a JSON array of messages. This differs from
+   transport-layer security models. Alternative message types MAY be
+   used for encryption.
+
+   "base64" is the ciphertext, base64 encoded. "noise_params" is an
+   opaque UTF-8 string describing the Noise configuration in use; this
+   document does not define its contents, and a receiver MUST bound its
+   length per Section 3.6. The plaintext MUST be a complete LCDP
+   datagram, and is subject to Section 3.5's size limit once decrypted.
+
+5. Design Considerations
+
+   LCDP separates mechanism from policy:
+
+   1. Statelessness: No connection state is required. This permits
+       communication with large numbers of peers with minimal per-peer
+       state. Source verification (Section 4.1) is the one exception,
+
+
+Pearson Expires 22 March 2027 [Page 8]
+       and it holds an address and a cookie rather than a session.
+
+   2. Extensibility: Compatibility is achieved by ignoring unknown
+       data, not by version negotiation. Incompatible changes require
+       new message types. This has been exercised between independent
+       implementations and it holds; what it does not do by itself is
+       keep two parties from coining one name for two things, which is
+       why Section 3.4 asks for namespacing and fixes field types.
+
+   3. Transport Agnosticism: While UDP is RECOMMENDED, the format may
+       be carried over other datagram services.
+
+   4. Debuggability: The use of UTF-8 JSON permits inspection with
+       standard tools such as tcpdump -A. Textual formats also enable
+       reliable generation and validation by automated tools, reducing
+       implementation friction in 2026 deployment environments.
+
+   5. Bottleneck Shift: The design assumes that engineering time and
+       cross-implementation compatibility cost more than bandwidth or
+       parsing overhead for target use cases. Applications with
+       extreme bandwidth constraints MAY choose alternative encodings.
+
+   6. Minimalism is not silence: A specification small enough to
+       implement in an afternoon still has to say what two
+       implementations must agree on. Where this document declines to
+       constrain something, such as an address format or a cookie's
+       contents, it says so, and says what a receiver does with it
+       anyway.
+
+6. Security Considerations
+
+   LCDP does not provide security properties in the base protocol.
+   Security is delegated to message types defined by applications.
+
+   1. Amplification: Implementations MUST implement rate limiting as
+       described in [RFC8085] Section 6. The cookie mechanism
+       described in Section 4.1 is RECOMMENDED, and Section 4.1.1
+       fixes the arithmetic of the bound.
+
+   2. Congestion Control: UDP provides no congestion control. Per
+       [RFC8085] Section 3.1 applications that send more than one
+       packet per RTT to a destination MUST implement congestion
+       control. Low-rate gossip applications MAY operate without it.
+
+   3. Privacy: Peer discovery messages reveal IP address and port
+       information. Deployments MUST consider whether this exposure is
+       acceptable for their threat model.
+
+   4. Parser Security: Implementations MUST use memory-safe JSON
+       parsers and MUST reject messages with excessive nesting depth or
+       size (Section 3.5).
+
+   5. Parser Differentials: Where two parsers can read one datagram
+       differently, the difference is exploitable whenever anything is
+       authenticated. Duplicate keys (Section 3.2), a signature over a
+
+
+Pearson Expires 22 March 2027 [Page 9]
+       re-serialized payload, and two payload fields under one
+       signature (Section 4.3.2) are each a way to show a verifier and
+       a reader different documents. The rules in those sections exist
+       for this reason and are not stylistic.
+
+   6. Resource Exhaustion: An unbounded string or array is a request
+       to allocate memory on a stranger's word. Section 3.6 requires
+       receivers to bound every field this document leaves unbounded.
+
+7. IANA Considerations
+
+   This document has no IANA actions.
+
+   Message type names without a period are reserved for this document
+   and documents that update it; Section 3.4 asks implementations to
+   namespace their own. No registry is established. Should the number
+   of independently defined message types grow enough that collisions
+   between namespaces become plausible, a registry may be warranted;
+   that is left to a future document.
+
+8. Normative References
+
+   [RFC2119] Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC768] Postel, J., "User Datagram Protocol", STD 6, RFC 768,
+              DOI 10.17487/RFC768, August 1980,
+              <https://www.rfc-editor.org/info/rfc768>.
+
+   [RFC4648] Josefsson, S., "The Base16, Base32, and Base64 Data
+              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
+              <https://www.rfc-editor.org/info/rfc4648>.
+
+   [RFC8032] Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
+              Signature Algorithm (EdDSA)", RFC 8032,
+              DOI 10.17487/RFC8032, January 2017,
+              <https://www.rfc-editor.org/info/rfc8032>.
+
+   [RFC8174] Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+   [RFC8259] Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
+              Interchange Format", STD 90, RFC 8259,
+              DOI 10.17487/RFC8259, December 2017,
+              <https://www.rfc-editor.org/info/rfc8259>.
+
+   [RFC8085] Eggert, L., Fairhurst, G., and G. Shepherd, "UDP Usage
+              Guidelines", BCP 145, RFC 8085, DOI 10.17487/RFC8085,
+              March 2017, <https://www.rfc-editor.org/info/rfc8085>.
+
+
+
+Pearson Expires 22 March 2027 [Page 10]
+9. Informative References
+
+   [RFC7252] Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
+              Application Protocol (CoAP)", RFC 7252,
+              DOI 10.17487/RFC7252, June 2014,
+              <https://www.rfc-editor.org/info/rfc7252>.
+
+   [RFC9518] Thaler, D., Ed., "Centralization, Decentralization, and
+              Internet Standards", RFC 9518, DOI 10.17487/RFC9518,
+              December 2023, <https://www.rfc-editor.org/info/rfc9518>.
+
+Appendix A. Changes from draft-04
+
+   No message type, field name or field meaning is changed.
+
+   An earlier revision of this appendix also claimed that no
+   conforming draft-04 sender becomes non-conforming. That was wrong,
+   and the correction is worth stating rather than quietly dropping.
+   Sections 3.2, 3.4, 3.7 and 4.3.2 each narrow what draft-04 permitted
+   a sender to emit: draft-04 adopted [RFC8259] wholesale, so duplicate
+   keys were legal; it set no case, prefix or length rule for hex; it
+   told receivers to ignore unknown fields, so sending both payload
+   fields was legal; and it did not fix a field's JSON type. Each
+   narrowing removes an ambiguity that two implementations cannot
+   resolve consistently, which is why the rules are kept and the claim
+   is amended instead. A draft-04 sender that already emits lowercase
+   unprefixed hex of the required length, no duplicate keys, and at
+   most one payload field is unaffected.
+
+   Wire format:
+
+   o  Section 3.2: duplicate JSON keys MUST be refused.
+
+   o  Section 3.3 (new): a receiver MUST process every message in a
+      datagram; message order is not significant; malformed data is
+      refused rather than ignored, "ignore unknown" being distinct from
+      "ignore malformed".
+
+   o  Section 3.4: a field's JSON type is part of its identity and MUST
+      NOT be changed; implementation-defined message types SHOULD be
+      namespaced.
+
+   o  Section 3.5: the 5888-octet figure is a sending limit only;
+      receivers MUST accept up to the transport's own ceiling and MUST
+      refuse beyond 65535 octets before parsing.
+
+   o  Section 3.6 (new): receivers MUST bound every string and array
+      this document leaves unbounded.
+
+   o  Section 3.7 (new): hexadecimal fields are lowercase, unprefixed,
+      exact length, and are refused rather than canonicalized.
+
+   Anti-spoofing:
+
+   o  Section 4.1: the cookie is opaque, echoed byte for byte, per-
+      source, unpredictable and length-bounded.
+
+   o  Section 4.1.1 (new): the amplification bound accumulates per
+      source rather than per datagram, because a per-datagram reading
+      cannot issue the challenge that a small request calls for;
+      header octets are counted on both sides or neither; content is
+      subject to the bound rather than separately forbidden, and the
+      cookie echo is exempt from it.
+
+   o  Section 4.1.2 (new): verification MAY be a property of each
+      datagram, so a sender SHOULD carry the cookie in every datagram;
+      a challenge MUST NOT be read as a lapsed verification
+
+
+Pearson Expires 22 March 2027 [Page 11]
+      or a failed exchange. Verified sources are still rate limited.
+
+   Cryptography:
+
+   o  Section 4.3.1: "ed25519h" and "ed25519" are the same thing, the
+      raw 32-octet public key in lowercase hex, not a hash.
+
+   o  Section 4.3.2: the signature covers the payload's wire octets,
+      unparsed and unre-serialized; the "payload" (base64) field is
+      documented; exactly one payload field MUST be present; the
+      payload is itself a complete LCDP datagram.
+
+   o  Section 4.3.3: "noise_params" is opaque and bounded; the
+      plaintext is a complete LCDP datagram.
+
+   Security Considerations gain parser differentials and resource
+   exhaustion. Section 3.1 notes that the conventional port is not
+   evidence. Section 7 reserves unnamespaced type names without
+   establishing a registry.
+
+Appendix B. Implementation Experience
+
+   The changes in Appendix A come from traffic exchanged between two
+   independent implementations: cjp2p (Rust, the reference
+   implementation) and lcdp-rs (Rust, an independent clean-room
+   implementation written from this document). Both speak LCDP over
+   UDP; the findings below were observed on the wire or in the other
+   implementation's source, not deduced from the specification.
+
+   What held. Extension by ignoring worked in both directions. Each
+   implementation bundles message types the other has never heard of,
+   and neither is disturbed by the other's. No version was negotiated
+   and none was missed. The design's central claim survives contact.
+
+   The bundling assumption. cjp2p bundles its cookie challenge with
+   payload, so a fetch begins with a datagram of the shape
+   [Content, PleaseAlwaysReturnThisMessage] -- the piece first, the
+   challenge after it, and the piece trimmed to 32 octets precisely
+   because the request it answered carried no echo. lcdp-rs read the
+   first message and stopped. The cookie was discarded, verification
+   never completed, and the fetch stalled with each side waiting.
+   Nothing in
+   draft-04 said to read the second element. Section 3.3.
+
+   Receive buffer sizing. cjp2p will serve a content piece of up to
+   40960 payload octets -- about 55000 octets of datagram once base64
+   encoded, some nine times draft-04's sending SHOULD -- to a peer that
+   asks for that much. This is read from its source rather than
+   observed on a wire, and cjp2p itself never requests more than 4096,
+   so the ceiling is reached only by a peer that asks. The point stands
+   regardless: the sending SHOULD says nothing about what a receiver
+   will be sent, and a buffer sized to 5888 is sized to the wrong
+   number. Section 3.5.
+
+   The field type collision. Both implementations carry content with a
+   "Content" message bearing an "eof" field, coined independently, and
+   the two gave it different JSON types: one a boolean marking the last
+   piece, the other the content's total octet count, sent on every
+   piece. Neither party broke a rule in draft-04 to arrive here --
+   though Section 3.4's new rule does make lcdp-rs the offender in
+   retrospect, since it is the implementation that changed a field's
+   type after shipping it. lcdp-rs now accepts both shapes; cjp2p
+   accepts only the numeric one, and a boolean "eof" fails its
+   deserializer. This is the origin of Section 3.4's rule on
+   field types and its request for namespacing. (The content transfer
+   messages themselves are an extension, not core, and are not
+
+
+Pearson Expires 22 March 2027 [Page 12]
+   specified by this document; a companion document may pin them.)
+
+   The unstartable handshake. Computing the 2x bound per datagram, a
+   24-octet request (52 with IPv4 and UDP headers) cannot pay for an
+   81-octet challenge (109 with headers). That challenge size is
+   lcdp-rs's, which carries a 32-hex cookie; cjp2p's is 57 octets, 85
+   with headers, which a per-datagram 2x bound does cover. So the bound
+   is unstartable for cookies of roughly thirty hex digits or more
+   rather than universally, and the challenge's size is the receiver's
+   choice. Accumulating credit per source removes the dependency on
+   that choice. Section 4.1.1.
+
+   Challenge as liveness -- a misdiagnosis, corrected. An earlier
+   revision of this appendix said cjp2p re-sends its challenge to
+   verified peers roughly once per second, bundled with the piece it is
+   answering, and Section 4.1.2 was written around that. It is not what
+   cjp2p does. cjp2p keeps no per-source verified state for this
+   purpose: it evaluates the echo per datagram, so a challenge in its
+   reply means the datagram it answered carried no valid echo and was
+   treated as unverified -- which is also why that reply was trimmed.
+   Separately, it challenges a rotating set of peers about once a
+   second in a periodic probe, and those datagrams carry no content
+   piece at all. The once-per-second cadence lcdp-rs observed was its
+   own retry timer.
+
+   lcdp-rs counted these toward a handshake attempt limit and aborted
+   live transfers; the longer the transfer, the more reliably it
+   failed. Not counting them, as lcdp-rs now does, treats the symptom.
+   The cure is for a sender to carry the cookie in every datagram, and
+   Section 4.1.2 now says so.
+
+   The public key spelling. draft-04's "ed25519h" was read as a hash of
+   a key, its "h" suffix suggesting one, while its use suggested a key.
+   In cjp2p it is a 32-octet raw public key, hex encoded, validated as
+   a compressed Edwards point; "SignedMessage"'s "ed25519" field holds
+   the identical type. Section 4.3.1.
+
+   Two payloads, one signature. cjp2p's "SignedMessage" carries an
+   undocumented "payload" field, base64, as an alternative to
+   "payload_json", and prefers "payload_json" when both are present. A
+   receiver preferring the other field would verify the same signature
+   against different content. Section 4.3.2.
+
+   Further fields observed in deployment and deliberately left
+   unspecified here: "MyPublicKey" carries an optional
+   "ed25519_eth_signed", an Ethereum signature over an ASCII statement
+   binding the Ed25519 key to a wallet address. It is a working
+   example of Section 3.4 in use, and a candidate for namespacing.
+
+Acknowledgments
+
+   The design of LCDP is informed by operational experience with peer-
+   to-peer systems and by the observations in [RFC9518] regarding
+   protocol design trade-offs in 2026.
+
+   The interoperability findings in Appendix B come from work on
+   lcdp-rs by Zach Norman, tested against cjp2p.
+
+Author's Address
+
+   Christopher Pearson
+   Independent
+   Email: lcdp@azai.net
+
+Additional Resources
+
+    https://github.com/kermit4/LCDP
+
+Pearson Expires 22 March 2027 [Page 13]
