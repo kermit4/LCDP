@@ -16,6 +16,7 @@ The XLR of P2P protocols.   Send what you like over it.
 
 You're still left with one of the two hard problems of computer science -- naming things.
 
+Matrix group: https://matrix.to/#/!8B6Z68iF0FKeYq6-EYu8PGZ0fOKEgUapthEfpMAyXtw?via=matrix.org
 Telegram group: https://t.me/lowest_common_denominator
 
 ## inspired by 
