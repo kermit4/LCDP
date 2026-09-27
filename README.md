@@ -16,8 +16,8 @@ The [XLR](https://en.wikipedia.org/wiki/XLR_connector) of P2P.   Send anything o
 
 You're still left with one of the two hard problems of computer science -- naming things.
 
-Matrix group: https://matrix.to/#/!8B6Z68iF0FKeYq6-EYu8PGZ0fOKEgUapthEfpMAyXtw?via=matrix.org
-Telegram group: https://t.me/lowest_common_denominator
+- Matrix group: https://matrix.to/#/!8B6Z68iF0FKeYq6-EYu8PGZ0fOKEgUapthEfpMAyXtw?via=matrix.org
+- Telegram group: https://t.me/lowest_common_denominator
 
 ## inspired by 
 
