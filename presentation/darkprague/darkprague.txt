@@ -1,0 +1,109 @@
+Duration: 20
+https://speak.darkprague.com/dp26/talk/GVWRU9/
+
+A general purpose peer to peer protocol for 2026, AI friendly, dual-NAT capable. Federated is not anti-fragile to political pressures. Not all NAT is uncooperative, but it's getting worse. Lets work together to keep P2P alive.
+
+Starting programming on a C64 and Linux since 1996, I've always had a focus on the network side, security and protocols, and particularly appreciate the value of P2P protocols as censorship resistance is democracy is liberty, without it whoever controls the narrative controls the votes.
+
+
+have a whole structure file checklist, faq, presentation, slide sugggestions, i can give to ai to refine and send back, whole, since we dont have a shared doc, and tell it that, make slides last.
+
+dont  name tcp and quic... just say dont usettreaming for messaging or messages on ntreams made of messages.  cut wording from all the mds.
+.tcp and quic are not a p2p protocols nor messaging protocol.  its a server/client streaming protocol, and not very good through NAT.  
+
+
+go over each detail of spec and explain why
+
+imagine a person im talking to and just talk to them.  with slides
+
+give backstorp about udp before i came up with json and how i think together can really help us resist together
+
+ive read so many RFCs, they go straight from UDP or TCP to very specialized application specific protocols.  there's a huge gap here that limits interoperability.
+
+
+i have a dream of various levels of optional interopability between decentralized apps, a common language, and plain text so human and AI readable directly.
+
+talk about cooperation to resist centralization
+funny slides
+
+
+cover rfc and past decentralization if I use re-decentralization term.   the path to re-decentralization is not making yet another protocol.   ...    so I made another protocol.
+We are happy to tell you that we accept your proposal "Lowest Common Denominator Protocol"
+to DARK PRAGUE 2026. Please click this link to confirm your attendance:
+Please contact us if you have any questions! We will reach out again before the conference to tell you the details about your slot in the schedule and technical details concerning the room and presentation tech.
+
+need slide showing layers, how this is much closer to IP than other things
+
+=== already submitted
+Proposal title: Lowest Common Denominator Protocol
+
+Abstract: A general purpose peer to peer protocol for 2026, AI friendly, dual-NAT capable. Federated is not anti-fragile to political pressures. Not all NAT is uncooperative, but it's getting worse. Lets work together to keep P2P alive.
+
+https://github.com/kermit4/LCDP
+
+Notes: LCDP is a simple, interoperable, expansible, message oriented peer to peer protocol, allowing participants to keep only as much state about peers as they prefer, implementing only the message types of interest, with minimal latency, and perpetual compatibility by extension not versioning, Nothing to patent, copyright, gatekeep, version, or trademark. Uncorruptable.
+
+=== end already submitted
+
+
+
+be sure to have pauses and jokes
+
+its an idea not a protocol
+
+
+start with the usual progression..opening connections so we dont have to deal with blah blah right now and just want to get to the fun parts
+
+but then as it evolves we wind up having to anyway and now we have lost cotrol, more overhead, limited connections, built on an scalable model, then proceed with workarounds like relaying messages, forgetting that we only got here to avoid exaclty the problems we're dealing with in a more developed application, but now its harder to change the design, so its complexity and latency and overhead for nothing gained in the long run
+
+well if i want to look cool, i need a description thatwattracts people to my talk
+xlr analogy
+
+be funny
+
+stick to the concept, dont get into the app at all
+
+
+they will want to contrast to libp2p
+
+i can talk aboet anyntig, so p2p and routers and cenship creep of no p2p..fight for it.  see ai notes.
+
+pracice video to myself
+
+
+mention the ipv6 rfc and issue
+
+record it? two phones?
+
+remembec you cant delete it
+
+put more notes on the dark pragee page of what i will talk abaut, current description will attrack libp2p people wmichh i dont want  
+
+talk about stopping war, first step is to be able to communinate without silos
+
+talk about enabling people to make apps easily and interoperably, cite the DAW
+
+
+yeah its important to not confuse message type we've made with the protocol itself which does not dictate any specific messages.
+
+I have a new analogy, do you know those XLR cables in pro-audio?  did you know that spec doesn't mention anything about electricity?  no voltage, no amps, no resistance specs.  not even cabling. its entirely just a connector spec.  just a plug.   
+
+and with it, people have done not just audio, but power, lightinging, all kinds of unexpected things over it.
+
+
+it doesn't try to solve everything, just one thing, well. Unix philosophy.  you [literally] plug it together with other things.
+
+
+LCDP is XLR connector for the internet.
+
+dark prague themed a bit, privacy, local first, self hosted.
+
+
+bitch about routers too, structural censorship.
+
+
+nc -u not slides
+
+And I just learned today that a common ISP in town gives you a router that is behind NAT, which itself does NAT for your LAN, so double NAT.    IP will be like money soon, fully permissioned for each message.
+
+cite the ipv6 RFC

@@ -1,0 +1,32 @@
+have a qr code to contact info
+=== talk
+who
+why
+how
+
+=== slides 
+https://xkcd.com/927/ standards
+xlr connector, parking space, ordinary mail envelope
+qr code to LCDP repo
+folder on main github and just pull the whole repo to USB and phone
+
+===
+
+
+*STAGE 3: Physical Go-Bag (Day before travel) - literal things*
+- [ ] HDMI + USB-C adapters, tested with your laptop
+- [ ] Clicker with fresh battery + spare AAA
+- [ ] Slides on: USB stick, laptop offline folder, phone, email to self
+- [ ] Phone on Do Not Disturb mode, airplane mode rehearsed
+
+*STAGE 4: Rehearsal (2 days) - DONE = 2 phone videos exist*
+- [ ] 5x out loud walking, no slides, just story arc
+- [ ] 1x video standing, with slides, timed 12-16 min
+- [ ] Watch video, fix one thing only
+- [ ] 1x final video, timed
+- [ ] One run with water bottle on table, practice sip at slide 6
+
+*STAGE 5: Day-of (at venue) - DONE = you are not copying traffic on highway*
+test stage after hours 
+- [ ] Place full water bottle on podium, open it before talk (so no fiddling)
+- [ ] After talk: don't hide, stand near stage
