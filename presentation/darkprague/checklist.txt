@@ -69,7 +69,7 @@ Your core insight is right and should be the thesis:
 
 > *You don't have to decide to speak a protocol or not. Speak whatever you want, as long as it fits in the envelope. 
 
-there are a few people who did great things and have a lot of influencce in decentralization, but separately its hardly even an annoyance against the centralized information structures, media, network, or banks.   there needs to be an easy path, with minimal requirements, to at least walk down the same path, interoperating as convenient, not fully siloed systems from above lowest layers.
+manp people have done   great things and have a lot of influencce in decentralization, but separately its hardly even an annoyance against the centralized information structures, media, network, or banks.  thats why we have to work together.  not in what is said, but at least a common structure to say it.   there needs to be an easy path, with minimal requirements, to at least walk down the same path, interoperating as convenient, not fully siloed systems from above lowest layers.
 
 cite specific parts of the cool rfc, the internet used to be decentralized. we made protocols not apps.  like a web browser, and email, are succcesful decentralized protocols.  though both are still server/client protocols.
 

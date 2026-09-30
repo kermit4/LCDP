@@ -1,6 +1,8 @@
 Duration: 20
 https://speak.darkprague.com/dp26/talk/GVWRU9/
 
+no authority. This is just a suggested design pattern.
+
 A general purpose peer to peer protocol for 2026, AI friendly, dual-NAT capable. Federated is not anti-fragile to political pressures. Not all NAT is uncooperative, but it's getting worse. Lets work together to keep P2P alive.
 
 Starting programming on a C64 and Linux since 1996, I've always had a focus on the network side, security and protocols, and particularly appreciate the value of P2P protocols as censorship resistance is democracy is liberty, without it whoever controls the narrative controls the votes.
@@ -16,7 +18,23 @@ go over each detail of spec and explain why
 
 imagine a person im talking to and just talk to them.  with slides
 
-give backstorp about udp before i came up with json and how i think together can really help us resist together
+give backstory about udp before i came up with json and how i think together can really help us resist together  It's the dumbest wire protocol I could come up with that still works. - cite vitalk post, show link on slide..or just show readme, make read me the slides and just scroll down, yes, dont dulpcitae everything. the readme is the presentation
+
+`[{"Something":{"Someinfo":"Somedata"},{"}]`
+
+You: We keep naming protocols after apps — 'the BitTorrent protocol,' 'the SSB protocol.' That killed decentralization since 2000.
+
+**HOST: Isn't JSON wasteful? Base64?**
+You: In 2005, yes. In 2026 I saturate gigabit on a $50 ARM board parsing JSON. Bandwidth is cheaper than explanations. When bottlenecks move, optimizations must move.
+
+**HOST: Last question — people will say 'this isn't new.' Why hasn't it happened?**
+You: Because we optimized for the wrong scarcity. For decades it was CPU, then bandwidth, then disk. Now we're post-scarcity on hardware.
+Todays' bottleneck is you.  Telling Claude what to build.  LCDP is optimized for *human understanding*, not hardware bottlenecks of the past.
+Decentralization helps everyone, including me, because I want to communicate without a third party deciding what I can say. Structural censorship happens when every path goes through a landlord. This makes the default path direct.
+
+- Say "messages, not connections" slowly, 3 times total
+
+qr code to whole presentation and my contact info
 
 ive read so many RFCs, they go straight from UDP or TCP to very specialized application specific protocols.  there's a huge gap here that limits interoperability.
 
@@ -107,3 +125,31 @@ nc -u not slides
 And I just learned today that a common ISP in town gives you a router that is behind NAT, which itself does NAT for your LAN, so double NAT.    IP will be like money soon, fully permissioned for each message.
 
 cite the ipv6 RFC
+
+why not encryption by default..because encryption protocols change, are complex, this is more of a transport, but inside whatever encryptedMessage, stick to the same structure so you just unwrap it and continue in the same style.. and some messages are meant to be public anyway
+
+
+**HOST: You wrote a quick-start with 'three paths, no wrong door.' Can we actually see how simple?**
+
+why nov, udp and json arent new..bottlecks have moved. wire protocols were optimized for different bottlenecks in the past.  you're the bottleneck now.
+
+You: Path 1 — use a node as your post office. Perfect for web devs.
+
+[demo or describe]
+`echo -n '[{"PleaseSendPeers":{}}]' | nc -u 127.0.0.1 24254`
+
+You get back `[{"Peers":{"peers":["..."]}}]`. You just spoke p2p from bash.
+
+[pause 2s]
+
+Path 2 — speak the wire directly. That's the Python code on screen. 20 lines. Implements peer discovery, chat, anti-spoof. Add your own `{"MyAppPing":{}}` and old nodes ignore it.
+
+**HOST: Wait, they just ignore unknown messages?**
+
+You: Yes. That's the compatibility rule: tolerate what you don't understand, never change meaning of existing fields, only add. No versions. Ever.
+
+[pause]
+
+Path 3 — browser bridge. Browsers can't do raw UDP, so you run a 30-line WebSocket-to-UDP bridge locally. The page at azai.net/video.html doesn't touch my server for video — it goes browser -> your localhost -> directly to peer.
+
+
