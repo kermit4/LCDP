@@ -1,3 +1,4 @@
+![URL QR](link.qr.jpg "link qr")
 
 # 1. Who should use this
 
@@ -15,7 +16,7 @@ Many great decentralized systems have been made, that don't talk to each other.
 
 ![RCA and XLR cable](rca_xlr.png "plugs")
 
-You recognize all of these because they don't do much.    They don't care what's sent over them -- analog audio, SPDIF digital audio, video, DMX lighting.  That's a standard primitive not an application.  The decentralization community needs modular interoperable standards and more UNIX philosophy, not more applications or complex protocols that can't be piped together, like HTTP except for P2P.
+You recognize all of these because they don't do much.    They don't care what's sent over them -- analog audio, SPDIF digital audio, video, DMX lighting.  That's a standard primitive not an application.  The decentralization community needs modular interoperable standards and more UNIX philosophy, not more applications or complex protocols that can't be piped together -- like HTTP except for P2P.
 
 Massive organizations work together to control information flows, and the structural censorship of home routers and mobile connections continue to get worse at P2P communication, while the decentralized community doesn't even agree how to say "hi" to each other at a protocol level.  We need a common ground, like English for the wire, with no central authority -- an envelope or design pattern moreso than a framework.  Think of an RCA plug for the internet. A small set of future proofed decisions that anyone can easily implement and expand on. Just like IP, but it's time to bring the common layer a bit higher for modern times, because the bottlenecks have moved.  We can now generate a gigabit per second of base64 wrapped in JSON and sent over UDP with a 10 year old CPU, and modern languages have robust JSON libraries that serialize directly to/from type safe variables.  We can build most things in a human/LLM centric way now, not computer centric.  You're the bottleneck now, not the hardware.  This is a new era of computing.  
 
