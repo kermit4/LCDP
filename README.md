@@ -1,8 +1,85 @@
+
+# 1. Who should use this
+
+Developers who 
+
+- want to communicate without the approval of third parties,
+- who believe that a democracy only exists as much as its people are able to,
+- who don't want to perpetuate a consumer / provider model,
+- who remember when we thought the internet would break down borders,
+- or who simply value low latency, legibility, and future proofed interoperability,
+
+# 2. Why
+
+Many great decentralized systems have been made, that don't talk to each other.   
+
+![RCA and XLR cable](rca_xlr.png "plugs")
+
+You recognize all of these because they don't do much.    They don't care what's sent over them -- analog audio, SPDIF digital audio, video, DMX lighting.  That's a standard primitive not an application.  The decentralization community needs modular interoperable standards and more UNIX philosophy, not more applications or complex protocols that can't be piped together, like HTTP except for P2P.
+
+Massive organizations work together to control information flows, and the structural censorship of home routers and mobile connections continue to get worse at P2P communication, while the decentralized community doesn't even agree how to say "hi" to each other at a protocol level.  We need a common ground, like English for the wire, with no central authority -- an envelope or design pattern moreso than a framework.  Think of an RCA plug for the internet. A small set of future proofed decisions that anyone can easily implement and expand on. Just like IP, but it's time to bring the common layer a bit higher for modern times, because the bottlenecks have moved.  We can now generate a gigabit per second of base64 wrapped in JSON and sent over UDP with a 10 year old CPU, and modern languages have robust JSON libraries that serialize directly to/from type safe variables.  We can build most things in a human/LLM centric way now, not computer centric.  You're the bottleneck now, not the hardware.  This is a new era of computing.  
+
+## UNIX philosophy.  
+
+- Modularity: simple parts connected by clean interfaces.
+
+- Clarity Over Cleverness: clean and easy to maintain rather than overly complex or obscure 
+
+- Composition: Design programs to be connected to other programs.
+
+- Separation: Separate policy from mechanism; separate interfaces from engines.
+
+- Simplicity: Design for simplicity; add complexity only where you must.
+
+- Transparency: Design for visibility to make inspection and debugging easier.
+
+- Robustness: Robustness is the child of transparency and simplicity.
+
+- Rule of Representation: Fold knowledge into data so program logic can be stupid and robust. 
+
+- Rule of Least Surprise: In interface design, always do the least surprising thing.
+
+- Rule of Economy: Programmer time is expensive; conserve it in preference to machine time.
+
+- Rule of Generation: Avoid hand-hacking; write programs to write programs when you can. [ a JSON wire protocol is very LLM friendly ]
+
+- Rule of Optimization: Prototype before polishing. Get it working before you optimize it. 
+
+- Rule of Diversity: Distrust all claims for “one true way”.
+
+- Rule of Extensibility: Design for the future, because it will be here sooner than you think. [ JSON and UDP are stable ] 
+
+- Do One Thing and Do It Well: focus on a single, specific task rather than trying to be a massive monolithic application.
+
+- Use universal interfaces: like plain text [ which JSON is ]
+
 # 1. the (un)protocol
 
-UTF-8 encoded JSON array of objects. Each object has a single key and its value is an object ("message") that may contain any number of key:value pairs, including 0. Do not change the meaning of already-used messages except by adding fields. Ignore unrecognized messages and fields.
+A UTF-8 encoded JSON array of zero or more objects each containing one key/value, with the value being a JSON object (an LCDP "message") sent over a message oriented protocol, such as UDP or websockets.
+
+Ignore unrecognized messages and fields.  Expand by adding messages or fields, but don't break the meaning of existing ones.
 
 https://datatracker.ietf.org/doc/html/draft-pearson-lcdp
+
+## Examples
+
+```json
+[{"ChatMessage":{"message":"hi"}}]
+```
+```json
+[{"PleaseSendContent":{
+"id":"8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4",
+"length":4096,
+"offset":0 }},
+"AlwaysReturned":["cookie","abc123"]}]
+```
+```json
+[{"PleaseSendPeers":{}},
+"AlwaysReturned":["cookie","abc123"]}]
+```
+```json
+[{"Peers":{"peers":["159.69.54.127:24254"]}}]
+```
 
 # 2. non-technical (optional reading)
 
@@ -12,7 +89,7 @@ Lowest Common Denominator Protocol (LCDP) tracking page
 
 LCDP is a simple, interoperable, expansible, message oriented peer to peer protocol, allowing participants to keep only as much state about peers as     they prefer, implementing only the message types of interest, with minimal latency, and perpetual compatibility by extension not versioning, Nothing to patent, copyright, gatekeep, version, or trademark.  Uncorruptable.
 
-The [XLR connector](https://en.wikipedia.org/wiki/XLR_connector) for the internet.   Send anything over it.
+The [RCA connector](https://en.wikipedia.org/wiki/RCA_connector) for the internet.   Send anything over it.  The plug doesn't care.
 
 You're still left with one of the two hard problems of computer science -- naming things.
 
@@ -23,9 +100,11 @@ Telegram https://t.me/lowest_common_denominator
 
 - https://farcaster.xyz/vitalik.eth/0xd6b8e141  
 - https://medium.com/@webseanhickey/the-evolution-of-a-software-engineer-db854689243
+- https://cscie2x.dce.harvard.edu/hw/ch01s06.html Unix Philosophy
 - https://m.youtube.com/shorts/98dQH9tKPEA
 - https://knightcolumbia.org/content/protocols-not-platforms-a-technological-approach-to-free-speech
 - https://www.rfc-editor.org/rfc/rfc9518.html
+- "Simple: no additional complexity should be present in the base protocol than can reasonably be offloaded into middleware" -- Gavin Wood
 
 ## elaborative essays
 
