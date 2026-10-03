@@ -1,4 +1,6 @@
-![URL QR](link.qr.jpg "link qr")
+Link to this page:
+
+![QR code link to this page](link.qr.jpg "QR code link to this page")
 
 # 1. Who should use this
 
@@ -16,11 +18,56 @@ Many great decentralized systems have been made, that don't talk to each other.
 
 ![RCA and XLR cable](rca_xlr.png "plugs")
 
-You recognize all of these because they don't do much.    They don't care what's sent over them -- analog audio, SPDIF digital audio, video, DMX lighting.  That's a standard primitive not an application.  The decentralization community needs modular interoperable standards and more UNIX philosophy, not more applications or complex protocols that can't be piped together -- like HTTP except for P2P.
+You recognize all of these because they don't do much.    They don't care what's sent over them -- analog audio, SPDIF digital audio, video, DMX lighting.  That's a standard primitive not an application.  The decentralization community needs modular interoperable standards and more UNIX philosophy, not more applications or complex protocols that can't be piped together -- like HTTP for P2P.
 
 Massive organizations work together to control information flows, and the structural censorship of home routers and mobile connections continue to get worse at P2P communication, while the decentralized community doesn't even agree how to say "hi" to each other at a protocol level.  We need a common ground, like English for the wire, with no central authority -- an envelope or design pattern moreso than a framework.  Think of an RCA plug for the internet. A small set of future proofed decisions that anyone can easily implement and expand on. Just like IP, but it's time to bring the common layer a bit higher for modern times, because the bottlenecks have moved.  We can now generate a gigabit per second of base64 wrapped in JSON and sent over UDP with a 10 year old CPU, and modern languages have robust JSON libraries that serialize directly to/from type safe variables.  We can build most things in a human/LLM centric way now, not computer centric.  You're the bottleneck now, not the hardware.  This is a new era of computing.  
 
-## UNIX philosophy.  
+# 3. the (un)protocol
+
+A UTF-8 encoded JSON array of zero or more objects each containing one key/value, with the value being a JSON object (an LCDP "message") sent over a message oriented protocol, such as UDP or UDP is unavailable, a websocket.
+
+Ignore unrecognized messages and fields.  Expand by adding messages or fields, but don't break the meaning of existing ones.
+
+https://datatracker.ietf.org/doc/html/draft-pearson-lcdp
+
+## Examples 
+
+(you don't have to use any of these)
+
+
+```json
+[{"ChatMessage":{"message":"hi"}}]
+```
+```json
+[{"PleaseSendContent":{
+"id":"8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4",
+"length":4096,
+"offset":0 }},
+"AlwaysReturned":["cookie","abc123"]}]
+```
+```json
+[{"PleaseSendPeers":{}},
+"AlwaysReturned":["cookie","abc123"]}]
+```
+```json
+[{"Peers":{"peers":["159.69.54.127:24254"]}}]
+```
+```json
+[{ "EncryptedMessages": {
+"base64": "LCDP encrypted in base64",
+"noise_params": "Noise_IK_25519_AESGCM_SHA256"
+} }]
+```
+```json
+[{"FastEncryptedMessages": { "ciphertext": "some base64..", "nonce":"xyz",  "sender": "an ed25519",}]
+```
+```json
+[{"AudioFrame":{ "sampleRate": 48000, "channels": 1, "format": "'f32' or 'opus' have been seen so far", "data": "some base64" }
+]
+```
+## why this way
+
+### UNIX philosophy.  
 
 - Modularity: simple parts connected by clean interfaces.
 
@@ -54,35 +101,26 @@ Massive organizations work together to control information flows, and the struct
 
 - Use universal interfaces: like plain text [ which JSON is ]
 
-# 1. the (un)protocol
+### why these specifics
 
-A UTF-8 encoded JSON array of zero or more objects each containing one key/value, with the value being a JSON object (an LCDP "message") sent over a message oriented protocol, such as UDP or websockets.
+- An array of objects with one key with a value that is an object so that your main loop or deserializer stays simple, for example:
 
-Ignore unrecognized messages and fields.  Expand by adding messages or fields, but don't break the meaning of existing ones.
-
-https://datatracker.ietf.org/doc/html/draft-pearson-lcdp
-
-## Examples
-
-```json
-[{"ChatMessage":{"message":"hi"}}]
-```
-```json
-[{"PleaseSendContent":{
-"id":"8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4",
-"length":4096,
-"offset":0 }},
-"AlwaysReturned":["cookie","abc123"]}]
-```
-```json
-[{"PleaseSendPeers":{}},
-"AlwaysReturned":["cookie","abc123"]}]
-```
-```json
-[{"Peers":{"peers":["159.69.54.127:24254"]}}]
+```js
+for (let m of packet) {
+  let type = Object.keys(m)[0];
+  handlers[type]?.(m[type]);
+}
 ```
 
-# 2. non-technical (optional reading)
+- ignore unknown message types, so we know how to expand without breaking existing things.  
+
+- perpetual compatibility by extension or obsolescence, not versioning. Like human language - you don't upgrade English to v2. Old node sees `{"message":"hi","lang":"en"}`, ignores `lang`, still shows `hi`.  
+
+- JSON namespace is virtually unlimited, just add fields or new message types to extend, not clobber existing meaning.
+
+
+
+# 4. non-technical (optional reading)
 
 ## summary
 
@@ -127,7 +165,7 @@ Telegram https://t.me/lowest_common_denominator
 - Claude, look at chat.html and make a proof-of-burn ed25519 key signer 
 
 
-# 3. as seen in the wild  (suggested reading)
+# 4. as seen in the wild  (suggested reading)
 ## message types 
 ### SHOULD implement
 #### anti-spoof
@@ -156,7 +194,7 @@ see the https://github.com/kermit4/LCDP/wiki and add your own.
 - UDP 148.71.89.128:24254
 - UDP 159.69.54.127:24254
 
-# 4. development hints
+# 5. development hints
 
 ` echo -n '[{"PleaseSendPeers":{}}]' |nc -u localhost -p 12321 24254`
 
