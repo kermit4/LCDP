@@ -1,86 +1,18 @@
-wash socks
-pack now?
-turn off fans, set AC to dry
-git pull all repos and get presentation on/in a repo, can be a brach of lcdp to not make noise on main branch
-#1 get a better description on the speakers list
+buy RCA cables, talk about what they could carry, no authority
+short rca cables to make bracelets or necklaces?
 
-enough cash for food..we need 300 for that.
-check in for flight
-lcdp.githib.com ?
+make structure/order first
+then get down to 15 mins by math
+think about actually presenting, walking on stage, set up kitchen timer, opening, pasuses, jokes, questions, walk off stage, walk through it all
+consolidate
+make images (for README)
+practice
+make pdf and send, ask if i update it if i can replace it later
+kitchen timer 19 mins for talk, set screenn to stay on.
+no mic? so people can socialize in back there and we're not trying to yell over each other?
+dont hit wrong button on clicker
 
-not a framework, a commons, landscape, surface
+put monero eth btc addresses on for anonymous donations, mention specific for this project so i'll know to focus more on it.
 
-no authority to approve new messages or fields, no license, UDP and JSON are open protocols, LCDP is just a suggestion of how to use them together, as a public commons, a common ground.
 
-slides showing room inserted below approachse not competing with, with generics on top not to propose inserting them into existing things, though they could..but looking ahead, yet not incompatible, show visually some connectiviity to the, like identity, idk what else?
-Don't standardize the signal. Standardize the socket.*
-more of an envelope than a protocol.  no versions
-> "IP didn't say what packets mean. Smart contracts didn't say what code you run. JAM doesn't say what service you run - it's a RISC-V VM, bring your own. That's the pattern. LCDP is that for messages: `[{...}]`. Parking spot doesn't care if it's a Tesla or bike, as long as it fits. But parking lots are useful because they exist."
-
-this is a suggestion to use JSON over message orientted protocls. give spec. thank you, start walking away.
-
-- XLR + parking spot + paper mail , smart contracts, JAM, CPUs
-there are too many competing standards, so i came up with one universal standard that covers everyone's use cases.  .. https://xkcd.com/927/
-- JAM hat tip: in the generic examples slide. "IP, smart contracts, JAM - all said 'bring your own logic, we provide the socket'. Same impulse." Gavin hears his work respected, not attacked. Audience sees pattern.
- "TCP is QWERTY - we use it for everything not because it's optimal for p2p, but default. How many Dvorak typists?" [find your person]
-- [ ] One slide: Dvorak + QWERTY. Script: "We keep using TCP for everything like QWERTY - not because it's optimal, because it's default. How many Dvorak users here?" [pause, find them] - that one person will remember you forever. You type Dvorak too, that's your bond. It's also perfect metaphor for connection-oriented being default.
-definition of done = *you can deliver it cold, on video, with no slides, while slightly dehydrated and distracted, and still land the 3 core lines.*
-
-- [ ] One slide: IP as generic solution. One slide: Smart contracts / JAM (hat tip to Gavin). Script: "We love generic layers - IP didn't say what packets mean, Ethereum said 'bring your own contract', JAM says 'bring your own service, here's a RISC-V'. LCDP is same impulse: bring your own message."
-
-PHASE 2 - Build the deck (Day 2) - DONE = 10-12 slides max, no paragraphs
-- [ ] Slide 1: Title - The Missing Socket
-- [ ] Slide 2: Dongle bag / adapters - relatable
-- [ ] Slide 3: XKCD 927
-- [ ] Slide 4: Stack: IP /??? / Frameworks - gap
-- [ ] Slide 5: XLR photo - big
-- [ ] Slide 6: Parking spot analogy (you nailed it) - "Parking lot doesn't care if it's a Tesla or a bike, as long as it fits. That's useful."
-- [ ] Slide 7: One line spec `[{ "Anything": {...}}]` + snail mail analogy - "Address + envelope, not the letter inside"
-- [ ] Slide 8: IP, JAM, Smart Contracts as examples of generic
-- [ ] Slide 9: Dvorak / QWERTY
-- [ ] Slide 10: People -> people, not via datacenter
-- [ ] Slide 11: Invitation: "I built some things over it, ask me after. What would YOU send?"
-- [ ] Slide 12: Final line: "Standardize the socket and the signals will come."
-
-No bullet lists. One image + one sentence per slide.
-
-PHASE 3 - Memorize shape, not script (Day 3) - DONE = can tell it without slides
-Programmers memorize syntax, speakers memorize *transitions*.
-- [ ] Write transition sentences on cards: "Which brings me to...", "So why does that matter..."
-- [ ] Practice 5 times out loud, walking, no camera, no slides. Just story arc. If you get lost, look at your 3 lines on wall.
-
-PHASE 4 - Rehearse like prod (Day 4-5) - DONE = 2 videos you can watch
-- [ ] Record yourself on phone, standing, full 15-min version. Watch once. Cringe. That's normal.
-- [ ] Record again. Second video should be 10% better. That's done.
-- [ ] Do one run with distractions: kid noise, small room. Like chaos engineering.
-- [ ] Time it. If 12-16 min, perfect. Leaves buffer.
-
-PHASE 5 - Day-of checklist (literal)
-- [ ] Water bottle full, lid tight
-- [ ] HDMI/USB-C adapter you tested
-- [ ] Slides on USB + in cloud + on phone
-- [ ] Clicker / phone charged
-- [ ] One sentence intro for moderator: "Filip, built LCDP, XLR for p2p"
-- [ ] After talk: stay near stage, don't hide. Your line: "Happy to show specific messages I built over it after."
-
----
-
-Your core insight is right and should be the thesis:
-
-> *You don't have to decide to speak a protocol or not. Speak whatever you want, as long as it fits in the envelope. 
-
-manp people have done   great things and have a lot of influencce in decentralization, but separately its hardly even an annoyance against the centralized information structures, media, network, or banks.  thats why we have to work together.  not in what is said, but at least a common structure to say it.   there needs to be an easy path, with minimal requirements, to at least walk down the same path, interoperating as convenient, not fully siloed systems from above lowest layers.
-
-cite specific parts of the cool rfc, the internet used to be decentralized. we made protocols not apps.  like a web browser, and email, are succcesful decentralized protocols.  though both are still server/client protocols.
-
-fidelity 2551 card becasue hotel may want it
-
-check in for flight
-
-do i bring my laptop? why? slides?
-
-go thorugh past presentation and sildes and all those .md and pull out the best, in osme order..or make AI do it?  
-
-COAT!
-set up vitamins
-hand moisturizer
+put resume link on github "hire me"..it should link to a work proposal not resume? doesnt need to be fancy, just someting where im leading i guess so theres not the dead air of no one initiating, make it a menue so they dont hav eto think?
