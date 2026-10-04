@@ -225,3 +225,17 @@ The protocol should sound more like people than computers.   Simple requests, sh
 
 Pay attention to unhandled messages and consider implementing them. Make your own -- you don't have to wait for some official protocol update to add messages or fields, just don't crash if you receive some, post about it here or somewhere and check that no one else has used it.  The namespace is virtually unlimited.
 
+# 6. contribute
+
+## to the project
+
+Just use it, post on the https://github.com/kermit4/LCDP/wiki and add your message types so others don't conflict with them.
+
+## to me
+
+These addresses are just for this so any donations would make me focus more on this.
+
+remove the spaces:
+bitcoin 1Ea8GVtKkpy eCS3VXGacBhwkFgWzrVJQst
+eth 0x7FB1D2CF886A66 f0A2D6a4c841f529F116E274B1
+monero  47g8VYiFgaNa4 JBKsT36Le85ShBWPht3P4nHWYJSB5tb592rx7WL1bT7mJC8x5izXH1dqQA5bZ6TnL1kQLszPf62HCyNC8c
