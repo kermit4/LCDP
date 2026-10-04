@@ -1,7 +1,4 @@
-Link to this page:
-
-
-<img src="./link.qr.jpg" width="800" style="page-break-inside: avoid;" alt="Link to this page">
+<img src="./link.qr.jpg" width="600" style="page-break-inside: avoid;" alt="Link to this page">
 
 # 0. intro
 
