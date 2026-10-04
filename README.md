@@ -240,6 +240,8 @@ bitcoin 1Ea8GVtKkpy eCS3VXGacBhwkFgWzrVJQst
 eth 0x7FB1D2CF886A66 f0A2D6a4c841f529F116E274B1
 monero  47g8VYiFgaNa4 JBKsT36Le85ShBWPht3P4nHWYJSB5tb592rx7WL1bT7mJC8x5izXH1dqQA5bZ6TnL1kQLszPf62HCyNC8c
 
+any donations will go mostly to promoting the idea, as any implementations are other repos (that i'll soon add other donation addresses for)
+
 # 7. I'm looking for work
 
 here is my CV https://azai.net/resume/
