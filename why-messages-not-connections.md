@@ -4,7 +4,7 @@ This is the deep dive for people who keep asking "why not just use TCP or WebRTC
 
 ## Connections were a hack to save developers
 
-In the 1970s, CPUs were slow and memory was measured in kilobytes. TCP gave you reliable, ordered bytes so you did not have to write retransmission yourself. That was a huge win.
+In the 1970s, CPUs were slow and memory was measured in kilobytes. TCP gave you reliable, ordered bytes so you did not have to write retransmission yourself. That was a huge win.  TCP is like Qwerty.  Qwerty was made to slow you down to not JAM up old typewriters, yet we still use it.  It made sense at the time, but not now.  That's why QUIC was made, howewver QUIC is still a server/client streaming protocol, not a P2P or messaging protocol.  It's usually just chosen out of habit, like Qwerty.
 
 Today every serious app reimplements those same mechanisms at the application layer anyway. Video calls buffer and reorder frames. Games send deltas and ignore old packets. Chat apps store and forward. You end up with reliability on top of reliability.
 
