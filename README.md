@@ -1,7 +1,7 @@
 Link to this page:
 
 ![QR code link to this page](link.qr.jpg "QR code link to this page")
-  <p align="left">                                                 <img src="./qr.png" width="250" style="page-break-inside: avoid;" alt="Link to this page">
+  <p align="left">                                                 <img src="./qr.png" width="150" style="page-break-inside: avoid;" alt="Link to this page">
 
 # 0. intro
 
